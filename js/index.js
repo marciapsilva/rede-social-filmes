@@ -1,3 +1,5 @@
+var database = firebase.database();
+
 $(document).ready(function(){
   $('#signup-btn').on('click', signUpModal);
   $('#signin-btn').on('click', signIn);
@@ -63,6 +65,8 @@ function userAuthentication() {
 function createUser() {
   var email = $('#signup-email').val();
   var password = $('#signup-password').val();
+  var firstName = $('#signup-fname').val();
+  var lastName = $('#signup-lname').val();
 
   firebase.auth().createUserWithEmailAndPassword(email, password)    
     .then(function() {
@@ -71,6 +75,15 @@ function createUser() {
     .catch(function(error) {
       showErrorMessage(error);
     });
+  
+  createUserData(firstName, lastName, email);
+}
+
+function createUserData(firstName, lastName, email) {
+  database.ref('users/').push({
+    username: firstName + ' ' + lastName,
+    email: email
+  });
 }
 
 function showErrorMessage(error) {

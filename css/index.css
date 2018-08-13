@@ -1,0 +1,97 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  border: 2px solid rgb(111, 74, 172);
+  margin: 15% auto;
+  padding: 2%;
+}
+
+main form div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sign-in-label {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 3%;
+}
+
+#signin-email, #signin-password {
+  margin: 3% 0 3% 0;
+}
+
+#signin-password, #signup-password {
+  margin-left: 2px;
+}
+
+#signin-btn, #signup-btn, .signup-modal-btn, #send-email {
+  width: 30%;
+  margin: 2%;
+  padding: 2%;
+  background-color: rgb(111, 74, 172);
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#signin-btn:hover, #signup-btn:hover, #signin-btn:focus, #signup-btn:focus,
+.signup-modal-btn:hover, .signup-modal-btn:focus, #send-email:hover, #send-email:focus {
+  background-color: rgb(51, 17, 116);
+}
+
+#forgot-password {
+  color: rgb(111, 74, 172);
+  margin-top: 1%;
+}
+
+#forgot-password:hover, #forgot-password:focus {
+  color: rgb(51, 17, 116);
+}
+
+.reset-password-form, .sign-up-form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sign-up-form {
+  flex-direction: column;
+}
+
+.sign-up-form div {
+  margin: auto;
+}
+
+.signup-modal-btn {
+  margin: 1.5% auto;
+}
+
+#signup-password {
+  margin-top: 3%;
+}
+
+#signup h5, #reset-password h5 {
+  color: rgb(111, 74, 172);
+}
+
+.signup-error-alert{
+  font-size: 0.8rem;
+  color: red;
+} 
+
+.error-border {
+  border: 1px solid red;
+}
+

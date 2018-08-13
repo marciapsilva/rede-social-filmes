@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.profile-picture {
+  height: 70px;
+}
+
+.main-header {
+  font-size: 18px;
+}
+
+@media screen and (max-width: 570px) {
+ .menu-title {
+   display: none;
+ }
+}

@@ -25,18 +25,39 @@
 <body>
   <header class="main-header d-flex flex-row justify-content-around align-items-end">
     <img class="profile-picture" src="https://cdn.iconscout.com/public/images/icon/free/png-512/account-profile-avatar-man-circle-round-user-3ce4172e278680ce-512x512.png">
-    <section class="newsfeed row">
-      <i class="icon-newspaper"></i>
-      <p class="menu-title">Newsfeed</p>
-    </section>
-    <section class="friends row">
+    <div class="dropdown">
+      <a class="newsfeed row" data-toggle="dropdown" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">
+        <i class="icon-newspaper"></i>
+        <p class="menu-title">Newsfeed</p>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-right multi-column columns-3" aria-labelledby="dropdownMenuButton">
+        <div class="row">
+          <div class="col-sm-4">
+            <ul class="multi-column-dropdown">
+              <li><a class="dropdown-item fried-posts" href="#">Posts de amigos</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-4">
+            <ul class="multi-column-dropdown">
+              <li><a class="dropdown-item your-posts" href="#">Seus posts</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-4">
+            <ul class="multi-column-dropdown">
+              <li><a class="dropdown-item all-posts" href="#">Todos os posts</a></li>
+            </ul>
+          </div>
+        </div>
+      </ul>
+    </div>
+    <a class="friends row">
       <i class="icon-users"></i>
       <p class="menu-title">Friends</p>
-    </section>
-    <section class="search row">
+    </a>
+    <a class="search row">
       <i class="icon-magnifying-glass"></i>
       <p class="menu-title">Search</p>  
-    </section>
+    </a>
     <a class="write row" data-toggle="modal" href="#postModal">
       <i class="icon-pencil-square-o"></i>
       <p class="menu-title">Post</p>  

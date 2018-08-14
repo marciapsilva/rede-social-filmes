@@ -5,7 +5,7 @@ $(document).ready(function(){
   loadUserMessages();
   $('#post-btn').on('click', postUserMessage);
   $('.search').on('click', showUsers);
-  $('.follow-btn').on('click', followUser);
+  // $('.follow-btn').on('click', followUser);
 })
 
 
@@ -52,17 +52,14 @@ function showUsers() {
   database.ref('users/').once('value')
     .then(function(snapshot) {
       clearSearch();
-      var snapshotVal = snapshot.val();
-      for (var i in snapshotVal) {
-        var idNumber = i;
-      }
       snapshot.forEach(function(childSnapshot) {
+        var childSnapshotKey = childSnapshot.key;
         childSnapshot.forEach(function(userId){
           var childData = userId.val()
           var usernameData = childData.username;
           var userBox = document.createElement('div');
           var usernameTitle = '<p>' + usernameData + '</p>';
-          var usernameBtn = '<button type="button" class="btn follow-btn btn-primary btn-sm" id="' + idNumber + '">Seguir</button>'
+          var usernameBtn = '<button type="button"  onclick="followUser(event)" class="btn follow-btn btn-primary btn-sm" id="' + childSnapshotKey + '">Seguir</button>'
           $(userBox).addClass("search-user");
           $(userBox).html(usernameTitle + usernameBtn);
           $('#search-area').prepend(userBox);
@@ -77,11 +74,6 @@ function clearSearch() {
 }
 
 function followUser() {
-  alert("aaa");
-  // var btnId = $(this).attr('id');
-  // console.log(btnId);
-  // database.ref('friends/' + USER_ID).push({
-  //   follow: btnId
-  // });
+  var clickTarget = event.target.id;
 };
 

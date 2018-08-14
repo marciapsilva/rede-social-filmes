@@ -11,10 +11,12 @@ function postUserMessage() {
   event.preventDefault();
 
   var message = $('#post-textarea').val();
+  var type = $('.type').val();
     // var type = $('nome-do-option-filtro').val();
 
   database.ref('posts/' + USER_ID).push({
     message: message,
+    type: type,
     // type: type
   });
 

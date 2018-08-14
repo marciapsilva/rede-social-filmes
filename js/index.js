@@ -54,8 +54,8 @@ function userAuthentication() {
   var password = $('#signin-password').val();
 
   firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(function() {
-      window.location = 'main.html';
+    .then(function(response) {
+      window.location = 'main.html?id=' + response.user.uid;
     })
     .catch(function(error) {
       showErrorMessage(error);
@@ -69,8 +69,8 @@ function createUser() {
   var lastName = $('#signup-lname').val();
 
   firebase.auth().createUserWithEmailAndPassword(email, password)    
-    .then(function() {
-      window.location = 'main.html';
+    .then(function(response) {
+      window.location = 'main.html?id=' + response.user.uid;
     })
     .catch(function(error) {
       showErrorMessage(error);
@@ -136,6 +136,8 @@ function clearSignInForm() {
 }
 
 function clearInput() {
+  $('#signup-fname').val('');
+  $('#signup-lname').val('');
   $('#signup-email').val('');
   $('#signup-password').val('');
   $('#signin-email').val('');

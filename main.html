@@ -37,12 +37,28 @@
       <i class="icon-magnifying-glass"></i>
       <p class="menu-title">Search</p>  
     </section>
-    <section class="write row">
+    <a class="write row" data-toggle="modal" href="#postModal">
       <i class="icon-pencil-square-o"></i>
       <p class="menu-title">Post</p>  
-    </section>
+    </a>
   </header>
-
+  <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <input class="modal-title form-control" id="postModalLongTitle"  placeholder="Seu Título"></input>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <textarea class="modal-body form-control"  placeholder="Escreva seu post aqui :)"></textarea>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary">Postar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>

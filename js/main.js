@@ -18,6 +18,7 @@ function postUserMessage() {
   database.ref('posts/' + USER_ID).push({
     message: message,
     type: type,
+    createdAt: firebase.database.ServerValue.TIMESTAMP,
   });
 
   showInFeed(message);

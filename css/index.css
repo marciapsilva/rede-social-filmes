@@ -58,12 +58,26 @@ main {
   padding: 2%;
 }
 
+.logo-container {
+  display: flex;
+  justify-content: center; 
+}
+
+.logo {
+  width: 70%;
+  height: 70%;
+}
+
 input {
   width: 100%;
-  font-family: 'Open Sans', sans-serif;
-  border: none;
   border-radius: 0.5rem;
+  border: 1px solid #6f4aac;
+  font-family: 'Open Sans', sans-serif;
   padding: 2%;
+}
+
+main input {
+  border: none;
 }
 
 button, #forgot-password {
@@ -115,16 +129,6 @@ button {
   margin-top: 3%;
 }
 
-.logo-container {
-  display: flex;
-  justify-content: center; 
-}
-
-.logo {
-  width: 70%;
-  height: 70%;
-}
-
 #signin-btn, #signup-btn {
   padding: 4% 0;
   margin: 5% 0;
@@ -152,9 +156,20 @@ button {
   color: #ffd106;
 }
 
-.reset-password-form, .sign-up-form {
+.modal-header {
+  border: none;
+}
+
+.modal h5 {
+  color: #6f4aac;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.sign-up-form, .reset-password-form {
   display: flex;
   flex-wrap: wrap;
+  margin: 0 14%;
 }
 
 .modal {
@@ -166,7 +181,7 @@ button {
 }
 
 .sign-up-form div {
-  margin: auto;
+  border: 1px solid blue;
 }
 
 .sign-up-form div:last-child {
@@ -185,10 +200,6 @@ button {
 
 #signup-password {
   margin-top: 3%;
-}
-
-#signup h5, #reset-password h5 {
-  color: #6f4aac;
 }
 
 .signup-error-alert{

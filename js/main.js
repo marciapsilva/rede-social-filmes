@@ -18,12 +18,14 @@ function postUserMessage() {
   database.ref('posts/' + USER_ID).push({
     message: message,
     type: type,
+    date: Date.now()
   });
 
   showInFeed(message);
 }
 
 function showInFeed(message) {
+  
   var postBox = document.createElement('div')
   var postMessage = '<p>' + message + '</p>';
   $(postBox).addClass("post-feed");
@@ -33,19 +35,47 @@ function showInFeed(message) {
 
 function loadUserMessages() {
 
-  database.ref('posts/' + USER_ID).once('value')
+  var posts = [];
+  database.ref('posts/').once('value')
     .then(function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
-        var childKey = childSnapshot.key;
-        var childData = childSnapshot.val();
-        var postBox = document.createElement('div')
-        var postMessage = '<p>' + childData.message + '</p>';
-        $(postBox).addClass("post-feed");
-        $(postBox).html(postMessage);
-        $('#feed').prepend(postBox);
+        database.ref('posts/' + childSnapshot.key).once('value')
+          .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+              // console.log(childSnapshot.key);
+              var userPost = childSnapshot.val();
+              var postDate = userPost.date;
+              posts.push(postDate);
+              posts.sort();
+            })
+
+            $(posts).map(function(index, value) {
+              database.ref('posts/').once('value')
+                .then(function(snapshot) {
+                  snapshot.forEach(function(childSnapshot) {
+                    database.ref('posts/' + childSnapshot.key).once('value')
+                      .then(function(snapshot) {
+                        snapshot.forEach(function(childSnapshot) {
+                          var userPost = childSnapshot.val();
+                          var postDate = userPost.date;
+                          var userMessage = userPost.message;
+  
+                          if (value === postDate) {
+                            var postBox = document.createElement('div')
+                            var postMessage = '<p>' + userMessage + '</p>';
+                            $(postBox).addClass("post-feed");
+                            $(postBox).html(postMessage);
+                            $('#feed').append(postBox);
+                          }
+                        })
+                      })
+                  })
+                })
+            })
+          })
       })
     })
-}
+  } 
 
 function showUsers() {
 
@@ -62,7 +92,7 @@ function showUsers() {
           var usernameData = childData.username;
           var userBox = document.createElement('div');
           var usernameTitle = '<p>' + usernameData + '</p>';
-          var usernameBtn = '<button type="button" class="btn follow-btn btn-primary btn-sm" id="' + idNumber + '">Seguir</button>'
+          var usernameBtn = '<button type="button" onclick="followUser(event)" class="btn follow-btn btn-primary btn-sm" id="' + idNumber + '">Seguir</button>'
           $(userBox).addClass("search-user");
           $(userBox).html(usernameTitle + usernameBtn);
           $('#search-area').prepend(userBox);
@@ -76,8 +106,12 @@ function clearSearch() {
   $('#search-area').empty();
 }
 
-function followUser() {
+function followUser(event) {
   alert("aaa");
+
+  var clickTarget = event.target.id;
+  console.log(clickTarget);
+
   // var btnId = $(this).attr('id');
   // console.log(btnId);
   // database.ref('friends/' + USER_ID).push({

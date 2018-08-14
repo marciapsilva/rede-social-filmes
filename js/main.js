@@ -5,9 +5,10 @@ $(document).ready(function(){
   loadUserMessages();
   $('#post-btn').on('click', postUserMessage);
   $('.search').on('click', showUsers);
-  // $('.follow-btn').on('click', followUser);
+  $('.your-posts').on('click', showMyPosts);
+  $('.friend-posts').on('click', showMyFriendsPosts);
+  $('.all-posts').on('click', showAllPosts);
 })
-
 
 function postUserMessage() {
   event.preventDefault();
@@ -103,6 +104,10 @@ function clearSearch() {
   $('#search-area').empty();
 }
 
+function clearFeed() {
+  $('#feed').empty();
+}
+
 function followUser() {
   var clickTarget = event.target.id;
 
@@ -111,3 +116,29 @@ function followUser() {
   });
 };
 
+function showMyPosts() {
+  clearFeed();
+
+  database.ref('posts/' + USER_ID).once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var postObject = childSnapshot.val();
+        var userMessage = postObject.message;
+        var postBox = document.createElement('div');
+        var postMessage = '<p>' + userMessage + '</p>';
+        $(postBox).addClass("post-feed");
+        $(postBox).html(postMessage);
+        $('#feed').prepend(postBox);
+      })
+    })
+}
+
+function showMyFriendsPosts() {
+  clearFeed();
+  alert('dos amigos');
+}
+
+function showAllPosts() {
+  clearFeed();
+  alert('todos');
+}

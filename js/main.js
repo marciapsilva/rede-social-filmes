@@ -13,24 +13,30 @@ $(document).ready(function(){
 function postUserMessage() {
   event.preventDefault();
 
+  var title = $('#postModalLongTitle').val();
   var message = $('#post-textarea').val();
   var type = $('.type').val();
 
   database.ref('posts/' + USER_ID).push({
+    title: title,
     message: message,
     type: type,
     date: Date.now()
   });
 
-  showInFeed(message);
+  showInFeed(message, title);
 }
 
-function showInFeed(message) {
+function showInFeed(message, title) {
   
   var postBox = document.createElement('div')
+  var postTitle = '<h3>' + title + '</h3>';
   var postMessage = '<p>' + message + '</p>';
+  if (title === undefined){
+    title = '';
+  };
   $(postBox).addClass("post-feed");
-  $(postBox).html(postMessage);
+  $(postBox).html(postTitle + postMessage);
   $('#feed').prepend(postBox);
 }
 
@@ -59,13 +65,18 @@ function loadUserMessages() {
                         snapshot.forEach(function(childSnapshot) {
                           var userPost = childSnapshot.val();
                           var postDate = userPost.date;
+                          var getPostTitle = userPost.title;
                           var userMessage = userPost.message;
-  
+                          if (getPostTitle === undefined){
+                            getPostTitle = '';
+                          };
+ 
                           if (value === postDate) {
-                            var postBox = document.createElement('div')
+                            var postBox = document.createElement('div');
+                            var postTitle = '<h3>' + getPostTitle + '</h3>';
                             var postMessage = '<p>' + userMessage + '</p>';
                             $(postBox).addClass("post-feed");
-                            $(postBox).html(postMessage);
+                            $(postBox).html(postTitle + postMessage);
                             $('#feed').append(postBox);
                           }
                         })
@@ -123,11 +134,16 @@ function showMyPosts() {
     .then(function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
         var postObject = childSnapshot.val();
+        var userPostTitle = postObject.title;
         var userMessage = postObject.message;
+        if (userPostTitle === undefined){
+          userPostTitle = '';
+        };
+        var userTitle =  '<h3>' + userPostTitle + '</h3>';
         var postBox = document.createElement('div');
         var postMessage = '<p>' + userMessage + '</p>';
         $(postBox).addClass("post-feed");
-        $(postBox).html(postMessage);
+        $(postBox).html(userTitle + postMessage);
         $('#feed').prepend(postBox);
       })
     })

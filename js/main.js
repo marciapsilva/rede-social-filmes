@@ -75,5 +75,9 @@ function clearSearch() {
 
 function followUser() {
   var clickTarget = event.target.id;
+
+  database.ref('friends/' + USER_ID).push({
+    follow: clickTarget,
+  });
 };
 

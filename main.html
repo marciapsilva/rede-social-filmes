@@ -23,6 +23,7 @@
   </script>
 </head>
 <body>
+  <!-- BOTÕES DO TOPO -->
   <header class="main-header d-flex flex-row justify-content-around align-items-end">
     <img class="profile-picture" src="https://cdn.iconscout.com/public/images/icon/free/png-512/account-profile-avatar-man-circle-round-user-3ce4172e278680ce-512x512.png">
     <div class="dropdown">
@@ -63,6 +64,13 @@
       <p class="menu-title">Post</p>  
     </a>
   </header>
+
+  <!-- ÁREA DO FEED -->
+  <section id="feed">
+    
+  </section>
+
+  <!-- MODAL PARA POSTAR MENSAGEM -->
   <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -72,10 +80,10 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <textarea class="modal-body form-control"  placeholder="Escreva seu post aqui :)"></textarea>
+        <textarea class="modal-body form-control" placeholder="Escreva seu post aqui :)" id="post-textarea"></textarea>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary">Postar</button>
+          <button type="button" class="btn btn-primary" id="post-btn">Postar</button>
         </div>
       </div>
     </div>

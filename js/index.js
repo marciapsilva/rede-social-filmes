@@ -70,17 +70,17 @@ function createUser() {
 
   firebase.auth().createUserWithEmailAndPassword(email, password)    
     .then(function(response) {
+      var USER_UID = response.user.uid;
+      createUserData(USER_UID, firstName, lastName, email);
       window.location = 'main.html?id=' + response.user.uid;
     })
     .catch(function(error) {
       showErrorMessage(error);
     });
-  
-  createUserData(firstName, lastName, email);
-}
+  }
 
-function createUserData(firstName, lastName, email) {
-  database.ref('users/').push({
+function createUserData(USER_UID, firstName, lastName, email) {
+  database.ref('users/' + USER_UID).push({
     username: firstName + ' ' + lastName,
     email: email
   });

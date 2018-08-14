@@ -16,18 +16,18 @@
 </head>
 <body>
   <!-- BOTÕES DO TOPO -->
-  <header class="main-header d-flex flex-row justify-content-around align-items-end">
-    <img class="profile-picture" src="https://cdn.iconscout.com/public/images/icon/free/png-512/account-profile-avatar-man-circle-round-user-3ce4172e278680ce-512x512.png">
+  <nav class="main-header navbar fixed-top">
+    <img class="profile-picture" src="assets/images/white-icon.png">
     <div class="dropdown">
-      <a class="newsfeed row" data-toggle="dropdown" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">
+      <a class="newsfeed row" data-toggle="dropdown" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false" href="#">
         <i class="icon-newspaper"></i>
         <p class="menu-title">Newsfeed</p>
       </a>
-      <ul class="dropdown-menu dropdown-menu-right multi-column columns-3" aria-labelledby="dropdownMenuButton">
+      <ul class="dropdown-menu multi-column columns-3" aria-labelledby="dropdownMenuButton">
         <div class="row">
           <div class="col-sm-4">
             <ul class="multi-column-dropdown">
-              <li><a class="dropdown-item fried-posts" href="#">Posts de amigos</a></li>
+              <li><a class="dropdown-item friend-posts" href="#">Posts de amigos</a></li>
             </ul>
           </div>
           <div class="col-sm-4">
@@ -43,7 +43,7 @@
         </div>
       </ul>
     </div>
-    <a class="friends row">
+    <a class="friends row" href="#">
       <i class="icon-users"></i>
       <p class="menu-title">Friends</p>
     </a>
@@ -51,11 +51,13 @@
       <i class="icon-magnifying-glass"></i>
       <p class="menu-title">Search</p>  
     </a>
-    <a class="write row" data-toggle="modal" href="#postModal">
+    <a class="write row mr-5" data-toggle="modal" href="#postModal">
       <i class="icon-pencil-square-o"></i>
       <p class="menu-title">Post</p>  
     </a>
-  </header>
+  </nav>
+
+  <div class="bg-navbar mb-5"></div>
 
   <!-- ÁREA DO FEED -->
   <section id="feed">
@@ -63,7 +65,7 @@
   </section>
 
   <!-- ÁREA DA BUSCA -->
-  <section id="search-area">
+  <section id="search-area" class=" d-flex flex-wrap justify-content-around">
     
   </section>
 

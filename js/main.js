@@ -4,6 +4,7 @@ var USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 $(document).ready(function(){
   loadUserMessages();
   $('#post-btn').on('click', postUserMessage);
+  $('.search').on('click', showUsers);
 })
 
 
@@ -46,3 +47,25 @@ function loadUserMessages() {
       })
     })
 }
+
+
+function showUsers() {
+
+  database.ref('users/').once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        childSnapshot.forEach(function(userId){
+          var childData = userId.val()
+          var usernameData = childData.username;
+          var userBox = document.createElement('div');
+          var usernameTitle = '<p>' + usernameData + '</p>';
+          var usernameBtn = '<button type="button" class="btn btn-primary btn-sm" id="' + childData.email + '">Seguir</button>'
+          $(userBox).addClass("search-user");
+          $(userBox).html(usernameTitle + usernameBtn);
+          $('#search-area').prepend(userBox);
+          $('#feed').hide();
+        })
+      })
+    }); 
+}
+

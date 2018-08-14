@@ -134,8 +134,46 @@ function showMyPosts() {
 }
 
 function showMyFriendsPosts() {
-  clearFeed();
-  alert('dos amigos');
+  var friendId;
+  database.ref('friends/' + USER_ID).once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        friendId = childSnapshot.val().follow;
+        console.log('loop que pega as ids dos amigos: ' + friendId);
+
+        database.ref('posts/').once('value')
+          .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+              console.log('---------');
+              console.log('loop que pega os posts dos amigos: id do loop dos amigos: ' + friendId);
+              console.log('loop que pega os posts dos amigos: id dos amigos dentro de posts: ' + childSnapshot.key);
+
+              if (friendId === snapshot.key) {
+                if (childSnapshot.val().type === 'public' || childSnapshot.val().type === 'friends') {
+                  var userMessage = childSnapshot.val().message;
+                  var postBox = document.createElement('div');
+                  var postMessage = '<p>' + userMessage + '</p>';
+                  $(postBox).addClass("post-feed");
+                  $(postBox).html(postMessage);
+                  $('#feed').prepend(postBox);
+                }
+              }
+            })
+          })
+      })
+    })
+}
+
+var myArr = [];
+function show_fb() {
+    var firebase = new Firebase('https://scorching-fire-6816.firebaseio.com/');
+    firebase.on('child_added', on_post_added);
+};
+function on_post_added(snapshot) {
+    var newPost = snapshot.val();
+    myArr.push(newPost.user);
+    console.log(myArr);
+    // do whatever else you need to do for a new post
 }
 
 function showAllPosts() {

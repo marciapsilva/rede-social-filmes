@@ -1,10 +1,16 @@
 var database = firebase.database();
 
 $(document).ready(function(){
+  splashFadeOut();
+
   $('#signup-btn').on('click', signUpModal);
   $('#signin-btn').on('click', signIn);
   $('#forgot-password').on('click', resetPasswordModal);
 })
+
+function splashFadeOut() {
+  $('.splash').delay('3000').fadeOut('500');
+}
 
 function signUpModal() {
   clearSignInForm();

@@ -5,6 +5,41 @@
   font-family: 'Open Sans Condensed', sans-serif;
 }
 
+.splash,
+.main-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.splash {
+  width: 100%;
+  height: 100%;
+  background-color: #6f4aac;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid red;
+}
+
+.splash-logo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadein 2s;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.splash-logo {
+  width: 90%;
+  height: 90%;
+}
+
 body {
   background-color: #6f4aac;
   color: #fff;

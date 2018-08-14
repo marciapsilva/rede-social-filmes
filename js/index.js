@@ -4,32 +4,35 @@ $(document).ready(function(){
   splashFadeOut();
 
   $('#signup-btn').on('click', signUpModal);
+  $('.sign-up-form button').on('click', signUp);
   $('#signin-btn').on('click', signIn);
   $('#forgot-password').on('click', resetPasswordModal);
+  $('#send-email').on('click', resetPassword);
 })
 
 function splashFadeOut() {
   $('.splash').delay('3000').fadeOut('500');
 }
 
-function signUpModal() {
+function signUpModal(event) {
+  event.preventDefault();
+  clearInput();
   clearSignInForm();
   clearModal();
   $('#signup').modal('show');
-  $('.sign-up-form button').on('click', signUp);
 }
 
-function signUp() {
+function signUp(event) {
   event.preventDefault();
   clearModal();
-  createUser();
+  createUser(event);
   clearInput();
 }
 
-function signIn() {
+function signIn(event) {
   event.preventDefault();
   clearSignInForm();
-  userAuthentication();
+  userAuthentication(event);
   clearInput();
 }
 
@@ -38,12 +41,15 @@ function resetPasswordModal() {
   clearModal();
   clearSignInForm();
   $('#reset-password').modal('show');
-  $('#send-email').on('click', resetPassword);
 }
 
-function resetPassword() {
+function resetPassword(event) {
+  event.preventDefault();
+  clearModal();
+
   var auth = firebase.auth();
   var emailAddress = $('#reset-email').val();
+  var targetId = event.target.id;
 
   auth.sendPasswordResetEmail(emailAddress).then(function() {
     clearInput();
@@ -51,11 +57,12 @@ function resetPassword() {
     $(sentEmail).text('Um e-mail foi enviado para o endereço informado com instruções para redefinir sua senha.');
     $('#send-email').after(sentEmail);
   }).catch(function(error) {
-    alert(error);
+    showErrorMessage(error, targetId);
   });
 }
 
-function userAuthentication() {
+function userAuthentication(event) {
+  var targetId = event.target.id;
   var email = $('#signin-email').val();
   var password = $('#signin-password').val();
 
@@ -64,15 +71,16 @@ function userAuthentication() {
       window.location = 'main.html?id=' + response.user.uid;
     })
     .catch(function(error) {
-      showErrorMessage(error);
+      showErrorMessage(error, targetId);
   });
 }
 
-function createUser() {
+function createUser(event) {
   var email = $('#signup-email').val();
   var password = $('#signup-password').val();
   var firstName = $('#signup-fname').val();
   var lastName = $('#signup-lname').val();
+  var targetId = event.target.id;
 
   firebase.auth().createUserWithEmailAndPassword(email, password)    
     .then(function(response) {
@@ -81,7 +89,7 @@ function createUser() {
       window.location = 'main.html?id=' + response.user.uid;
     })
     .catch(function(error) {
-      showErrorMessage(error);
+      showErrorMessage(error, targetId);
     });
   }
 
@@ -92,15 +100,25 @@ function createUserData(USER_UID, firstName, lastName, email) {
   });
 }
 
-function showErrorMessage(error) {
+function showErrorMessage(error, targetId) {
   var errorCode = error.code;
   var errorHtmlMessage = document.createElement('p');
   $(errorHtmlMessage).attr('class', 'signup-error-alert');
 
   if (errorCode === 'auth/invalid-email') {
     $(errorHtmlMessage).text('*E-mail inválido.');
-    $('#signup-email').after(errorHtmlMessage);
-    $('#signup-email').attr('class', 'error-border');
+
+    if (targetId === 'signin-btn') {
+      console.log($('#signin-email'));
+      $('#signin-email').after(errorHtmlMessage);
+      $('#signin-email').attr('class', 'error-border');
+    } else if (targetId === 'signup-modal-btn') {
+      $('#signup-email').after(errorHtmlMessage);
+      $('#signup-email').attr('class', 'error-border');
+    } else if (targetId === 'send-email') {
+      $('#reset-email').after(errorHtmlMessage);
+      $('#reset-email').attr('class', 'error-border');
+    }
   }
 
   if (errorCode === 'auth/weak-password') {
@@ -110,7 +128,7 @@ function showErrorMessage(error) {
   }
 
   if(errorCode === 'auth/email-already-in-use') {
-    $(errorHtmlMessage).text('*E-mail já cadastrado. Se deseja recuperar a senha, clique em Esqueci a Senha.');
+    $(errorHtmlMessage).html('*E-mail já cadastrado. Se deseja recuperar a senha, clique em "Esqueci a senha".');
     $('#signup-email').after(errorHtmlMessage);
     $('#signup-email').attr('class', 'error-border');
   }
@@ -122,15 +140,22 @@ function showErrorMessage(error) {
   }
 
   if (errorCode === 'auth/user-not-found') {
-    $(errorHtmlMessage).text('*Usuário não encontrado. Se você é novo no site, clique em Cadastrar-se.');
-    $('#signin-email').after(errorHtmlMessage);
-    $('#signin-email').attr('class', 'error-border');
+    $(errorHtmlMessage).text('*Usuário não encontrado. Se você é novo no site, clique em "Cadastrar-se".');
+
+    if (targetId === 'signin-btn') {
+      $('#signin-email').after(errorHtmlMessage);
+      $('#signin-email').attr('class', 'error-border');
+    } else if (targetId === 'send-email') {
+      $('#reset-email').after(errorHtmlMessage);
+      $('#reset-email').attr('class', 'error-border');
+    }
   }
 }
 
 function clearModal() {
   $('#signup-email').removeClass('error-border');
   $('#signup-password').removeClass('error-border');
+  $('#reset-email').removeClass('error-border');
   $('.sign-up-form p').remove();
   $('.reset-password-form p').remove();
 }

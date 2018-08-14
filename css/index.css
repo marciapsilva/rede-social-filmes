@@ -188,14 +188,15 @@ button {
 }
 
 #signup h5, #reset-password h5 {
-  color: rgb(111, 74, 172);
+  color: #6f4aac;
 }
 
 .signup-error-alert{
-  font-size: 0.8rem;
-  color: red;
+  font-size: 0.9rem;
+  font-family: 'Open Sans', sans-serif;
+  color: #00ffea;
 } 
 
 .error-border {
-  border: 1px solid red;
+  border: 2px solid #00ffea;
 }

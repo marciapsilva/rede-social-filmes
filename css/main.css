@@ -16,6 +16,8 @@ body {
   font-size: 1.2rem;
   font-family: 'Open Sans Condensed', sans-serif;
   font-weight: bold;
+  height: 80px;
+  background-color: #6f4aac;
 }
 
 .bg-navbar {
@@ -60,6 +62,18 @@ li {
  .menu-title {
    display: none;
  }
+
+ .profile-picture {
+  height: 40px;
+}
+
+.bg-navbar {
+  height: 50px;
+}
+
+.main-header {
+  height:50px;
+}
 
  .post-feed {
   width: 100vw;

@@ -6,26 +6,20 @@
   <title>Rede Social de Filmes!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
   <link rel="stylesheet" type="text/css" media="screen" href="css/index.css" />
   <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase-database.js"></script>
-  <script>
-    var config = {
-      apiKey: "AIzaSyDi4bJC1RWmEFWT2vqCTBcUSnUqo_1KsyY",
-      authDomain: "rede-social-filmes.firebaseapp.com",
-      databaseURL: "https://rede-social-filmes.firebaseio.com",
-      projectId: "rede-social-filmes",
-      storageBucket: "rede-social-filmes.appspot.com",
-      messagingSenderId: "652475052126"
-    };
-    firebase.initializeApp(config);
-  </script>
+  <script src="js/firebase.js"></script>
 </head>
 <body>
   <div class="login-container">
     <!-- navbar  -->
-    <main class="col-10 col-sm-8 col-md-5 col-xl-3">
+    <main class="col-10 col-md-6 col-xl-4">
+      <div class="logo-container">
+        <img class="logo" src="assets/images/logo-temp-01.png">
+      </div>
       <form class="sign-in-form">
         <div>
           <label class="sign-in-label">E-mail:</label>
@@ -36,8 +30,8 @@
           <input type="password" name="" id="signin-password">
         </div>
         <div>
-          <button id="signin-btn">Logar</button>
           <button id="signup-btn">Cadastre-se</button>
+          <button id="signin-btn">Logar</button>
         </div>
         <div>
           <a href="#" id="forgot-password">Esqueci a senha</a>
@@ -73,7 +67,9 @@
                 <label for="">Senha:</label>
                 <input type="password" name="" id="signup-password">
               </div>
-              <button class="signup-modal-btn">Cadastrar</button>
+              <div class="col-6">
+                <button id="signup-modal-btn">Cadastrar</button>
+              </div>
             </form>
           </div>
         </div>

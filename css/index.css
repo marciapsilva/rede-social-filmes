@@ -2,24 +2,55 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+body {
+  background-color: #6f4aac;
+  color: #fff;
 }
 
 .login-container {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 main {
-  border: 2px solid rgb(111, 74, 172);
-  margin: 15% auto;
+  border: 2px solid #6f4aac;
+  border-radius: 1.5rem;
+  margin: auto;
   padding: 2%;
+}
+
+input {
+  width: 100%;
+  font-family: 'Open Sans', sans-serif;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 2%;
+}
+
+button, #forgot-password {
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
 main form div {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.sign-in-form div {
+  margin: 0 12%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+label {
+  margin: 5% 0 2% 1% !important;
 }
 
 .sign-in-label {
@@ -36,34 +67,64 @@ main form div {
   margin-left: 2px;
 }
 
-#signin-btn, #signup-btn, .signup-modal-btn, #send-email {
-  width: 30%;
-  margin: 2%;
-  padding: 2%;
-  background-color: rgb(111, 74, 172);
+button {
+  background-color: #331174;
   border: none;
   color: #fff;
   border-radius: 10px;
   cursor: pointer;
 }
 
+.sign-in-form div:nth-child(3) {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3%;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center; 
+}
+
+.logo {
+  width: 70%;
+  height: 70%;
+}
+
+#signin-btn, #signup-btn {
+  padding: 4% 0;
+  margin: 5% 0;
+  width: 48%;
+}
+
 #signin-btn:hover, #signup-btn:hover, #signin-btn:focus, #signup-btn:focus,
-.signup-modal-btn:hover, .signup-modal-btn:focus, #send-email:hover, #send-email:focus {
-  background-color: rgb(51, 17, 116);
+#signup-modal-btn:hover, #signup-modal-btn:focus, #send-email:hover, #send-email:focus {
+  background-color: #ffd106;
+  color: #2e2e2e;
+}
+
+.sign-in-form div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 #forgot-password {
-  color: rgb(111, 74, 172);
+  color: #fff;
   margin-top: 1%;
 }
 
 #forgot-password:hover, #forgot-password:focus {
-  color: rgb(51, 17, 116);
+  color: #ffd106;
 }
 
 .reset-password-form, .sign-up-form {
   display: flex;
   flex-wrap: wrap;
+}
+
+.modal {
+  color: #575757;
 }
 
 .sign-up-form {
@@ -74,8 +135,18 @@ main form div {
   margin: auto;
 }
 
-.signup-modal-btn {
-  margin: 1.5% auto;
+.sign-up-form div:last-child {
+  display: flex;
+  justify-content: center;
+}
+
+#signup-modal-btn {
+  padding: 4% 8%;
+  margin: 5% 0;
+}
+
+#send-email {
+  padding: 2% 4%;
 }
 
 #signup-password {

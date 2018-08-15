@@ -181,7 +181,7 @@ button {
 }
 
 .sign-up-form div {
-  border: 1px solid blue;
+  border: none;
 }
 
 .sign-up-form div:last-child {
@@ -189,10 +189,10 @@ button {
   justify-content: center;
 }
 
-#signup-modal-btn {
-  padding: 4% 8%;
-  margin: 5% 0;
-}
+/* #signup-modal-btn {
+  padding: 4vw 8vw;
+  margin: 5vw 0;
+} */
 
 #send-email {
   padding: 2% 4%;

@@ -150,46 +150,41 @@ function showMyPosts() {
 }
 
 function showMyFriendsPosts() {
+  clearFeed();
   var friendId;
+  // PERCORRENDO OS AMIGOS QUE O USUÁRIO SEGUE NO BANCO DE DADOS
   database.ref('friends/' + USER_ID).once('value')
     .then(function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-        friendId = childSnapshot.val().follow;
-        console.log('loop que pega as ids dos amigos: ' + friendId);
-
+      snapshot.forEach(function(friendsUserFollows) {
+        //PERCORRENDO OS POSTS DE TODOS OS USUÁRIOS PARA ENCONTRAR OS POSTS DOS AMIGOS NO BANCO DE DADOS
+        //PRIMEIRO LOOP PARA ENCONTRAR AS IDS DOS USUÁRIOS
         database.ref('posts/').once('value')
           .then(function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-              console.log('---------');
-              console.log('loop que pega os posts dos amigos: id do loop dos amigos: ' + friendId);
-              console.log('loop que pega os posts dos amigos: id dos amigos dentro de posts: ' + childSnapshot.key);
+            snapshot.forEach(function(userId) {
+              //SEGUNDO LOOP PARA ENCONTRAR OS TYPES E MESSAGES DE CADA USUÁRIO
+              database.ref('posts/' + userId.key).once('value')
+                .then(function(snapshot) {
+                  snapshot.forEach(function(childSnapshot) {
 
-              if (friendId === snapshot.key) {
-                if (childSnapshot.val().type === 'public' || childSnapshot.val().type === 'friends') {
-                  var userMessage = childSnapshot.val().message;
-                  var postBox = document.createElement('div');
-                  var postMessage = '<p>' + userMessage + '</p>';
-                  $(postBox).addClass("post-feed");
-                  $(postBox).html(postMessage);
-                  $('#feed').prepend(postBox);
-                }
-              }
+                    friendId = friendsUserFollows.val().follow;    
+
+                    if (friendId === userId.key) {
+                      if (childSnapshot.val().type === 'public' || childSnapshot.val().type === 'friends') {
+                        var userMessage = childSnapshot.val().message;
+                        var postBox = document.createElement('div');
+                        var postMessage = '<p>' + userMessage + '</p>';
+                        $(postBox).addClass("post-feed");
+                        $(postBox).html(postMessage);
+                        $('#feed').prepend(postBox);
+                      }
+                    }
+
+                  })
+                })
             })
           })
       })
     })
-}
-
-var myArr = [];
-function show_fb() {
-    var firebase = new Firebase('https://scorching-fire-6816.firebaseio.com/');
-    firebase.on('child_added', on_post_added);
-};
-function on_post_added(snapshot) {
-    var newPost = snapshot.val();
-    myArr.push(newPost.user);
-    console.log(myArr);
-    // do whatever else you need to do for a new post
 }
 
 function showAllPosts() {

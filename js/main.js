@@ -99,13 +99,15 @@ function showUsers() {
         childSnapshot.forEach(function(userId){
           var childData = userId.val()
           var usernameData = childData.username;
-          var userBox = document.createElement('div');
-          var usernameTitle = '<p>' + usernameData + '</p>';
-          var usernameBtn = '<button type="button"  onclick="followUser(event)" class="btn follow-btn btn-primary btn-sm" id="' + childSnapshotKey + '">Seguir</button>'
-          $(userBox).addClass("search-user");
-          $(userBox).html(usernameTitle + usernameBtn);
-          $('#search-area').prepend(userBox);
-          $('#feed').hide();
+          if (childSnapshotKey !== USER_ID) {
+            var userBox = document.createElement('div');
+            var usernameTitle = '<p>' + usernameData + '</p>';
+            var usernameBtn = '<button type="button"  onclick="followUser(event)" class="btn follow-btn btn-primary btn-sm" id="' + childSnapshotKey + '">Seguir</button>'
+            $(userBox).addClass("search-user");
+            $(userBox).html(usernameTitle + usernameBtn);
+            $('#search-area').prepend(userBox);
+            $('#feed').hide();
+          }
         })
       })
     }); 
@@ -153,10 +155,11 @@ function clearFeed() {
 
 function followUser() {
   var clickTarget = event.target.id;
-
-  database.ref('friends/' + USER_ID).push({
-    follow: clickTarget,
+  
+    database.ref('friends/' + USER_ID).push({
+      follow: clickTarget,
   });
+  
 };
 
 function showMyPosts() {

@@ -1,0 +1,213 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.splash,
+.main-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.splash {
+  width: 100%;
+  height: 100%;
+  background-color: #6f4aac;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.splash-logo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadein 2s;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.splash-logo {
+  width: 90%;
+  height: 90%;
+}
+
+body {
+  background-color: #6f4aac;
+  color: #fff;
+}
+
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  border: 2px solid #6f4aac;
+  border-radius: 1.5rem;
+  margin: auto;
+  padding: 2%;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center; 
+}
+
+.logo {
+  width: 70%;
+  height: 70%;
+}
+
+input {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #6f4aac;
+  font-family: 'Open Sans', sans-serif;
+  padding: 2%;
+}
+
+main input {
+  border: none;
+}
+
+button, #forgot-password {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+main form div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.sign-in-form div {
+  margin: 0 12%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+label {
+  margin: 5% 0 2% 1% !important;
+}
+
+.sign-in-label {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 3%;
+}
+
+#signin-email, #signin-password {
+  margin: 3% 0 3% 0;
+}
+
+#signin-password, #signup-password {
+  margin-left: 2px;
+}
+
+button {
+  background-color: #331174;
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.sign-in-form div:nth-child(3) {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3%;
+}
+
+#signin-btn, #signup-btn {
+  padding: 4% 0;
+  margin: 5% 0;
+  width: 48%;
+}
+
+#signin-btn:hover, #signup-btn:hover, #signin-btn:focus, #signup-btn:focus,
+#signup-modal-btn:hover, #signup-modal-btn:focus, #send-email:hover, #send-email:focus {
+  background-color: #ffd106;
+  color: #2e2e2e;
+}
+
+.sign-in-form div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+#forgot-password {
+  color: #fff;
+  margin-top: 1%;
+}
+
+#forgot-password:hover, #forgot-password:focus {
+  color: #ffd106;
+}
+
+.modal-header {
+  border: none;
+}
+
+.modal h5 {
+  color: #6f4aac;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.sign-up-form, .reset-password-form {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 14%;
+}
+
+.modal {
+  color: #575757;
+}
+
+.sign-up-form {
+  flex-direction: column;
+}
+
+.sign-up-form div {
+  border: none;
+}
+
+.sign-up-form div:last-child {
+  display: flex;
+  justify-content: center;
+}
+
+/* #signup-modal-btn {
+  padding: 4vw 8vw;
+  margin: 5vw 0;
+} */
+
+#send-email {
+  padding: 2% 4%;
+}
+
+#signup-password {
+  margin-top: 3%;
+}
+
+.signup-error-alert{
+  font-size: 0.9rem;
+  font-family: 'Open Sans', sans-serif;
+  color: #00ffea;
+} 
+
+.error-border {
+  border: 2px solid #00ffea;
+}

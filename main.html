@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link href="https://file.myfontastic.com/TL7SPECgWqKUURXn2NDXqK/icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+  <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase-database.js"></script>
+  <script src="js/firebase.js"></script>
+
+</head>
+<body>
+  <!-- BOTÕES DO TOPO -->
+  <nav class="main-header navbar fixed-top">
+    <img class="profile-picture" src="assets/images/white-icon.png">
+    <div class="dropdown">
+      <a class="newsfeed row" data-toggle="dropdown" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false" href="#">
+        <i class="icon-newspaper"></i>
+        <p class="menu-title">Newsfeed</p>
+      </a>
+      <ul class="dropdown-menu multi-column columns-3" aria-labelledby="dropdownMenuButton">
+        <div class="row">
+          <div class="col-sm-4">
+            <ul class="multi-column-dropdown">
+              <li><a class="dropdown-item friend-posts" href="#">Posts de amigos</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-4">
+            <ul class="multi-column-dropdown">
+              <li><a class="dropdown-item your-posts" href="#">Seus posts</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-4">
+            <ul class="multi-column-dropdown">
+              <li><a class="dropdown-item all-posts" href="#">Todos os posts</a></li>
+            </ul>
+          </div>
+        </div>
+      </ul>
+    </div>
+    <a class="friends row" href="#">
+      <i class="icon-users"></i>
+      <p class="menu-title">Friends</p>
+    </a>
+    <a class="search row" href="#">
+      <i class="icon-magnifying-glass"></i>
+      <p class="menu-title">Search</p>  
+    </a>
+    <a class="write row mr-5" data-toggle="modal" href="#post-modal">
+      <i class="icon-pencil-square-o"></i>
+      <p class="menu-title">Post</p>  
+    </a>
+  </nav>
+
+  <div class="bg-navbar mb-5"></div>
+
+  <!-- ÁREA DO FEED -->
+  <section id="feed">
+    
+  </section>
+
+  <!-- ÁREA DA BUSCA -->
+  <section id="search-area" class=" d-flex flex-wrap justify-content-around">
+    
+  </section>
+
+  <!-- MODAL PARA POSTAR MENSAGEM -->
+  <div class="modal fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="postModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <input class="modal-title form-control" id="post-modal-long-title"  placeholder="Seu Título"></input>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <textarea class="modal-body form-control" placeholder="Escreva seu post aqui :)" id="post-textarea"></textarea>
+        <div class="modal-footer">
+          <select class="type form-control form-control-sm">
+            <option value="public">Público</option>
+            <option value="friends">Amigos</option>
+          </select>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="post-btn">Postar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PARA DELETAR MENSAGEM -->
+  <div class="modal fade" id="delete-post-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Deletar post</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="reset-password-form">
+            <div>
+              <label for="">Tem certeza que deseja deletar seu post?</label>
+            </div>
+            <div>
+              <button class="btn btn-primary" id="delete-post">Sim</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

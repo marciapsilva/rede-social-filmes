@@ -35,32 +35,33 @@ function postUserMessage(event) {
 function editPostModal(event) {
   event.preventDefault();
 
-  var targetElement = event.target;
-  var elementParent = targetElement.parentElement;
-  var elementGrandParent = elementParent.parentElement;
-  var postId = $(elementGrandParent).attr("data-post-id");
+  var postId = $(this).attr("data-post-id");
+  console.log(postId);
 
   $('#edit-post-modal').modal('show');
-  $('#edit-post').on('click',(function(event){
+  $('#edit-post').on('click', function(event) {
     editPost(event, postId);
-    editPostInDatabase();
-  })); 
+  });
 }
 
 function editPost(event, postId) {
   event.preventDefault();
-  // $('#post-textarea').text("banana")
-  console.log('deu bom');
+
+  database.ref('posts/' + USER_ID + '/' + postId).once('value')
+  .then(function(snapshot) {
+    snapshot.child("message").val();
+  })
 }
 
 function editPostInDatabase(event) {
-  console.log('edit deu bom');
 }
 
 function deletePostModal(event) {
   event.preventDefault();
 
   var targetElement = event.target;
+  var nextSibling = targetElement.nextElementSibling;
+
   var elementParent = targetElement.parentElement;
   var elementGrandParent = elementParent.parentElement;
   var postId = $(elementGrandParent).attr("data-post-id");
@@ -108,7 +109,7 @@ function showUsers() {
   database.ref('users/').once('value')
     .then(function(snapshot) {
       clearSearch();
-      snapshot.forEach(function(childSnapshot) {
+      snapshot.forEach(function(childSnapshot) {        
         var childSnapshotKey = childSnapshot.key;
         childSnapshot.forEach(function(userId){
           var childData = userId.val()
@@ -197,11 +198,11 @@ function showMyPosts() {
           userPostTitle = '';
         };
         var template = `
-        <div class="post-feed" data-post-id=${postId}>
+        <div class="post-feed">
           <div class="post-header">
             <h3>${userPostTitle}</h3>
-            <span class="edit-btn icon-pencil"></span>
-            <span class="delete-btn">&times;</span>
+            <span class="edit-btn icon-pencil" data-post-id=${postId}></span>
+            <span class="delete-btn" data-post-id=${postId}>&times;</span>
           </div>
           <div>
             <p>${userMessage}</p>

@@ -39,23 +39,56 @@ function editPostModal(event) {
   var elementParent = targetElement.parentElement;
   var elementGrandParent = elementParent.parentElement;
   var postId = $(elementGrandParent).attr("data-post-id");
+  database.ref('posts/' + USER_ID + '/' + postId + '/message/').once('value')
+  .then(function(snapshot) {
+    var postEdit = snapshot.val();
+    // var postToEdit = getPost.val();
+    // console.log('ESSA', postToEdit)
 
-  $('#edit-post-modal').modal('show');
-  $('#edit-post').on('click',(function(event){
-    editPost(event, postId);
-    editPostInDatabase();
-  })); 
+    var editModal = `<div class="modal fade" id="edit-post-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <input class="modal-title form-control" id="post-modal-long-title"  placeholder="Seu Título"></input>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="reset-password-form">
+            <div>
+              <textarea class="modal-body form-control" placeholder="${postEdit}" id="${postId}"></textarea>
+            </div>
+            <div>
+              <button class="btn btn-primary" id="edit-post">Sim</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>`
+
+
+    $(editModal).modal('show');
+    // $('#edit-post').on('click',(function(event){
+    //   editPost(event, postId);
+    //   editPostInDatabase();
+    // })); 
+    }); 
 }
 
-function editPost(event, postId) {
-  event.preventDefault();
-  // $('#post-textarea').text("banana")
-  console.log('deu bom');
-}
+// function editPost(event, postId) {
+//   event.preventDefault();
+//   // $('#post-textarea').text("banana")
+//   console.log('deu bom');
+// }
 
-function editPostInDatabase(event) {
-  console.log('edit deu bom');
-}
+// function editPostInDatabase(event) {
+//   console.log('edit deu bom');
+// }
 
 function deletePostModal(event) {
   event.preventDefault();

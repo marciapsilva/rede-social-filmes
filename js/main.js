@@ -13,8 +13,8 @@ $(document).ready(function(){
   $('#feed').on('click', '.edit-btn', editPostModal);
 })
 
-function postUserMessage() {
-  event.preventDefault();
+function postUserMessage(event) {
+  event.preventDefault(event);
 
   var title = $('#post-modal-long-title').val();
   var message = $('#post-textarea').val();
@@ -41,18 +41,18 @@ function editPostModal(event) {
   var postId = $(elementGrandParent).attr("data-post-id");
 
   $('#edit-post-modal').modal('show');
-  $('#edit-post').on('click',(function(){
-    editPost();
+  $('#edit-post').on('click',(function(event){
+    editPost(event);
     editPostInDatabase();
   })); 
 }
 
-function editPost() {
+function editPost(event) {
   event.preventDefault();
   console.log('deu bom');
 }
 
-function editPostInDatabase() {
+function editPostInDatabase(event) {
   console.log('edit deu bom');
 }
 
@@ -65,13 +65,13 @@ function deletePostModal(event) {
   var postId = $(elementGrandParent).attr("data-post-id");
 
   $('#delete-post-modal').modal('show');
-  $('#delete-post').click(function(){
-    deletePost(elementGrandParent);
+  $('#delete-post').click(function(event){
+    deletePost(event, elementGrandParent);
     deletePostInDatabase(postId);
   }); 
 }
 
-function deletePost(elementGrandParent) {
+function deletePost(event, elementGrandParent) {
   event.preventDefault();
 
   elementGrandParent.remove();

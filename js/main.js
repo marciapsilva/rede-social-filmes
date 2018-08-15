@@ -4,17 +4,19 @@ var USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 $(document).ready(function(){
   // loadUserMessages();
   $('#post-btn').on('click', postUserMessage);
+  $('.menu-title').on('click', clearPostModal);
   $('.search').on('click', showUsers);
   $('.your-posts').on('click', showMyPosts);
   $('.friend-posts').on('click', showMyFriendsPosts);
   $('.all-posts').on('click', showAllPosts);
   $('.friends').on('click', showMyFriends);
+  $('#feed').on('click', '.delete-btn', deletePostModal);
 })
 
 function postUserMessage() {
   event.preventDefault();
 
-  var title = $('#postModalLongTitle').val();
+  var title = $('#post-modal-long-title').val();
   var message = $('#post-textarea').val();
   var type = $('.type').val();
 
@@ -25,21 +27,56 @@ function postUserMessage() {
     date: Date.now()
   });
 
-  showInFeed(message, title);
+  showMyPosts();
+  $('#post-modal').modal('hide');
+  // showInFeed(message, title);
 }
 
-function showInFeed(message, title) {
-  
-  var postBox = document.createElement('div')
-  var postTitle = '<h3>' + title + '</h3>';
-  var postMessage = '<p>' + message + '</p>';
-  if (title === undefined){
-    title = '';
-  };
-  $(postBox).addClass("post-feed");
-  $(postBox).html(postTitle + postMessage);
-  $('#feed').prepend(postBox);
+function deletePostModal(event) {
+  event.preventDefault();
+
+  var targetElement = event.target;
+  var elementParent = targetElement.parentElement;
+  var elementGrandParent = elementParent.parentElement;
+  var postId = $(elementGrandParent).attr("data-post-id");
+
+  $('#delete-post-modal').modal('show');
+  $('#delete-post').click(function(){
+    deletePost(elementGrandParent);
+    deletePostInDatabase(postId);
+  }); 
 }
+
+function deletePost(elementGrandParent) {
+  event.preventDefault();
+  elementGrandParent.remove();
+  $('#delete-post-modal').modal('hide');
+}
+
+function deletePostInDatabase(postId) {
+  database.ref('posts/' + USER_ID + '/' + postId).remove();
+}
+
+//talvez não precise dessa função, showMyPosts substitui ela e dá a opção
+//de deletar o post, coisa que essa aqui não dá
+// function showInFeed(message, title) {
+//   if (title === undefined){
+//     title = '';
+//   };
+  
+//   var template = `
+//   <div class="post-feed">
+//     <div class="post-header">
+//       <h3>${title}</h3>
+//       <span class="delete-btn">&times;</span>
+//     </div>
+//     <div>
+//       <p>${message}</p>
+//     </div>
+//   </div>
+// `
+//   $('#feed').prepend(template);
+// }
 
 // function loadUserMessages() {
 
@@ -153,6 +190,11 @@ function clearFeed() {
   $('#feed').empty();
 }
 
+function clearPostModal() {
+  $('#post-modal-long-title').val('');
+  $('#post-textarea').val('');
+}
+
 function followUser() {
   var clickTarget = event.target.id;
   
@@ -163,30 +205,42 @@ function followUser() {
 };
 
 function showMyPosts() {
+  $('#feed').show();
   clearFeed();
+  clearSearch();
 
   database.ref('posts/' + USER_ID).once('value')
     .then(function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
+        var postId = childSnapshot.key;
         var postObject = childSnapshot.val();
         var userPostTitle = postObject.title;
         var userMessage = postObject.message;
         if (userPostTitle === undefined){
           userPostTitle = '';
         };
-        var userTitle =  '<h3>' + userPostTitle + '</h3>';
-        var postBox = document.createElement('div');
-        var postMessage = '<p>' + userMessage + '</p>';
-        $(postBox).addClass("post-feed");
-        $(postBox).html(userTitle + postMessage);
-        $('#feed').prepend(postBox);
+        var template = `
+        <div class="post-feed" data-post-id=${postId}>
+          <div class="post-header">
+            <h3>${userPostTitle}</h3>
+            <span class="delete-btn">&times;</span>
+          </div>
+          <div>
+            <p>${userMessage}</p>
+          </div>
+        </div>
+      `
+        $('#feed').prepend(template);
       })
     })
 }
 
 var results;
 function showMyFriendsPosts() {
+  $('#feed').show();
   clearFeed();
+  clearSearch();
+
   var friendId;
   // PERCORRENDO OS AMIGOS QUE O USUÁRIO SEGUE NO BANCO DE DADOS
   database.ref('friends/' + USER_ID).once('value')
@@ -209,6 +263,7 @@ function showMyFriendsPosts() {
                     if (friendId === userId.key) {
                       if (postType === 'public' || childSnapshot.val().type === 'friends') {
                         results = pushPostsIntoArray(postDate);
+
 
                         var userMessage = childSnapshot.val().message;
                         var postBox = document.createElement('div');
@@ -237,3 +292,4 @@ function showAllPosts() {
   clearFeed();
   alert('todos');
 }
+

@@ -54,8 +54,12 @@ li {
   margin: 10px auto;
 }
 
-#post-btn {
+#post-btn, #delete-post {
   background-color: #6f4aac;
+}
+
+.delete-btn {
+  cursor: pointer;
 }
 
 @media screen and (max-width: 576px) {

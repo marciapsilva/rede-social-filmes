@@ -51,7 +51,7 @@
       <i class="icon-magnifying-glass"></i>
       <p class="menu-title">Search</p>  
     </a>
-    <a class="write row mr-5" data-toggle="modal" href="#postModal">
+    <a class="write row mr-5" data-toggle="modal" href="#post-modal">
       <i class="icon-pencil-square-o"></i>
       <p class="menu-title">Post</p>  
     </a>
@@ -70,11 +70,11 @@
   </section>
 
   <!-- MODAL PARA POSTAR MENSAGEM -->
-  <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalTitle" aria-hidden="true">
+  <div class="modal fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="postModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <input class="modal-title form-control" id="postModalLongTitle"  placeholder="Seu Título"></input>
+          <input class="modal-title form-control" id="post-modal-long-title"  placeholder="Seu Título"></input>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -92,6 +92,32 @@
     </div>
   </div>
 
+  <!-- MODAL PARA DELETAR MENSAGEM -->
+  <div class="modal fade" id="delete-post-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Deletar post</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="reset-password-form">
+            <div>
+              <label for="">Tem certeza que deseja deletar seu post?</label>
+            </div>
+            <div>
+              <button class="btn btn-primary" id="delete-post">Sim</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>  

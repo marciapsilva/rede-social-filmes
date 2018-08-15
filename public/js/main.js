@@ -2,7 +2,6 @@ var database = firebase.database();
 var USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 
 $(document).ready(function(){
-  // loadUserMessages();
   $('#post-btn').on('click', postUserMessage);
   $('.menu-title').on('click', clearPostModal);
   $('.search').on('click', showUsers);
@@ -11,10 +10,11 @@ $(document).ready(function(){
   $('.all-posts').on('click', showAllPosts);
   $('.friends').on('click', showMyFriends);
   $('#feed').on('click', '.delete-btn', deletePostModal);
+  $('#feed').on('click', '.edit-btn', editPostModal);
 })
 
-function postUserMessage() {
-  event.preventDefault();
+function postUserMessage(event) {
+  event.preventDefault(event);
 
   var title = $('#post-modal-long-title').val();
   var message = $('#post-textarea').val();
@@ -32,6 +32,31 @@ function postUserMessage() {
   // showInFeed(message, title);
 }
 
+function editPostModal(event) {
+  event.preventDefault();
+
+  var targetElement = event.target;
+  var elementParent = targetElement.parentElement;
+  var elementGrandParent = elementParent.parentElement;
+  var postId = $(elementGrandParent).attr("data-post-id");
+
+  $('#edit-post-modal').modal('show');
+  $('#edit-post').on('click',(function(event){
+    editPost(event, postId);
+    editPostInDatabase();
+  })); 
+}
+
+function editPost(event, postId) {
+  event.preventDefault();
+  // $('#post-textarea').text("banana")
+  console.log('deu bom');
+}
+
+function editPostInDatabase(event) {
+  console.log('edit deu bom');
+}
+
 function deletePostModal(event) {
   event.preventDefault();
 
@@ -41,14 +66,15 @@ function deletePostModal(event) {
   var postId = $(elementGrandParent).attr("data-post-id");
 
   $('#delete-post-modal').modal('show');
-  $('#delete-post').click(function(){
-    deletePost(elementGrandParent);
+  $('#delete-post').click(function(event){
+    deletePost(event, elementGrandParent);
     deletePostInDatabase(postId);
   }); 
 }
 
-function deletePost(elementGrandParent) {
+function deletePost(event, elementGrandParent) {
   event.preventDefault();
+
   elementGrandParent.remove();
   $('#delete-post-modal').modal('hide');
 }
@@ -77,55 +103,6 @@ function deletePostInDatabase(postId) {
 // `
 //   $('#feed').prepend(template);
 // }
-
-// function loadUserMessages() {
-
-//   var posts = [];
-//   database.ref('posts/').once('value')
-//     .then(function(snapshot) {
-//       snapshot.forEach(function(childSnapshot) {
-//         database.ref('posts/' + childSnapshot.key).once('value')
-//           .then(function(snapshot) {
-//             snapshot.forEach(function(childSnapshot) {
-//               // console.log(childSnapshot.key);
-//               var userPost = childSnapshot.val();
-//               var postDate = userPost.date;
-//               posts.push(postDate);
-//               posts.sort();
-//             })
-
-//             $(posts).map(function(index, value) {
-//               database.ref('posts/').once('value')
-//                 .then(function(snapshot) {
-//                   snapshot.forEach(function(childSnapshot) {
-//                     database.ref('posts/' + childSnapshot.key).once('value')
-//                       .then(function(snapshot) {
-//                         snapshot.forEach(function(childSnapshot) {
-//                           var userPost = childSnapshot.val();
-//                           var postDate = userPost.date;
-//                           var getPostTitle = userPost.title;
-//                           var userMessage = userPost.message;
-//                           if (getPostTitle === undefined){
-//                             getPostTitle = '';
-//                           };
- 
-//                           if (value === postDate) {
-//                             var postBox = document.createElement('div');
-//                             var postTitle = '<h3>' + getPostTitle + '</h3>';
-//                             var postMessage = '<p>' + userMessage + '</p>';
-//                             $(postBox).addClass("post-feed");
-//                             $(postBox).html(postTitle + postMessage);
-//                             $('#feed').append(postBox);
-//                           }
-//                         })
-//                       })
-//                   })
-//                 })
-//             })
-//           })
-//       })
-//     })
-//   } 
 
 function showUsers() {
   database.ref('users/').once('value')
@@ -223,6 +200,7 @@ function showMyPosts() {
         <div class="post-feed" data-post-id=${postId}>
           <div class="post-header">
             <h3>${userPostTitle}</h3>
+            <span class="edit-btn icon-pencil"></span>
             <span class="delete-btn">&times;</span>
           </div>
           <div>

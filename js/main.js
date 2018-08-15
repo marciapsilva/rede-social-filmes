@@ -42,13 +42,14 @@ function editPostModal(event) {
 
   $('#edit-post-modal').modal('show');
   $('#edit-post').on('click',(function(event){
-    editPost(event);
+    editPost(event, postId);
     editPostInDatabase();
   })); 
 }
 
-function editPost(event) {
+function editPost(event, postId) {
   event.preventDefault();
+  // $('#post-textarea').text("banana")
   console.log('deu bom');
 }
 

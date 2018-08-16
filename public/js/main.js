@@ -149,40 +149,30 @@ function deletePostInDatabase(postId) {
   database.ref(`posts/${USER_ID}/${postId}`).remove();
 }
 
-function showUsers() {
-  // LOOP PARA ACHAR OS AMIGOS
-  database.ref('friends/' + USER_ID).once('value')
-  .then(function(snapshot) {
-    snapshot.forEach(function(friendsUserFollows) {
-      var userFollows = friendsUserFollows.val().follow;
-      // mostra os amigos
-      // console.log(userFollows)     
-
-      // LOOP PARA ACHAR USUÁRIOS
-      database.ref('users/').once('value')
-        .then(function(snapshot) {
-          clearSearch();
-          snapshot.forEach(function(childSnapshot) {        
-            var childSnapshotKey = childSnapshot.key;
-            childSnapshot.forEach(function(userId){
-              var childData = userId.val()
-              var usernameData = childData.username;     
-              
-              if (childSnapshotKey !== USER_ID || childSnapshotKey !== userFollows) {
-                var userBox = document.createElement('div');
-                var usernameTitle = '<p>' + usernameData + '</p>';
-                var usernameBtn = '<button type="button"  onclick="followUser(event)" class="btn follow-btn btn-primary btn-sm" id="' + childSnapshotKey + '">Seguir</button>'
-                var userProfile = '<img class="profile-picture" src="assets/images/yellow-profile.png">'
-                $(userBox).addClass("search-user");
-                $(userBox).html(userProfile + usernameTitle + usernameBtn);
-                $('#search-area').prepend(userBox);
-                $('#feed').hide();
-              }
-            });
-          });
-        }); 
+function showUsers() {  
+  clearSearch();
+  database.ref('users/').once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {        
+        var childSnapshotKey = childSnapshot.key;
+        console.log(childSnapshotKey);
+        childSnapshot.forEach(function(userId){
+          var childData = userId.val()
+          var usernameData = childData.username;     
+          
+          if (childSnapshotKey !== USER_ID) {
+            var userBox = document.createElement('div');
+            var usernameTitle = '<p>' + usernameData + '</p>';
+            var usernameBtn = '<button type="button"  onclick="followUser(event)" class="btn follow-btn btn-primary btn-sm" id="' + childSnapshotKey + '">Seguir</button>'
+            var userProfile = '<img class="profile-picture" src="assets/images/yellow-profile.png">'
+            $(userBox).addClass("search-user");
+            $(userBox).html(userProfile + usernameTitle + usernameBtn);
+            $('#search-area').prepend(userBox);
+            $('#feed').hide();
+          }
+        });
       });
-    });
+    }); 
 }
 
 function signout() {

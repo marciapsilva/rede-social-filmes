@@ -34,27 +34,82 @@ function postUserMessage(event) {
 
 function editPostModal(event) {
   event.preventDefault();
-
   var postId = $(this).attr("data-post-id");
-  console.log(postId);
 
-  $('#edit-post-modal').modal('show');
-  $('#edit-post').on('click', function(event) {
-    editPost(event, postId);
-  });
-}
-
-function editPost(event, postId) {
-  event.preventDefault();
-
-  database.ref('posts/' + USER_ID + '/' + postId).once('value')
+  database.ref('posts/' + USER_ID + '/' + postId + '/message/').once('value')
   .then(function(snapshot) {
-    snapshot.child("message").val();
-  })
+    var postEdit = snapshot.val();
+    // var postToEdit = getPost.val();
+    // console.log('ESSA', postToEdit)
+
+    var editModal = `<div class="modal fade" id="edit-post-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <input class="modal-title form-control" id="post-modal-long-title"  placeholder="Seu Título"></input>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="reset-password-form">
+            <div>
+              <textarea class="modal-body form-control" placeholder="${postEdit}" id="${postId}"></textarea>
+            </div>
+            <div>
+              <button class="btn btn-primary" id="edit-post">Sim</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>`
+
+
+    $(editModal).modal('show');
+    // $('#edit-post').on('click',(function(event){
+    //   editPost(event, postId);
+    //   editPostInDatabase();
+    // })); 
+    }); 
 }
 
-function editPostInDatabase(event) {
-}
+//MEU COMMIT QUE VEIO DA LABORATÓRIA CASO A GENTE PRECISE RETORNAR A ELA
+// <<<<<<< HEAD
+// function editPostModal(event) {
+//   var postId = $(this).attr("data-post-id");
+//   console.log(postId);
+
+//   $('#edit-post-modal').modal('show');
+//   $('#edit-post').on('click', function(event) {
+//     editPost(event, postId);
+//   });
+// }
+
+// function editPost(event, postId) {
+//   event.preventDefault();
+
+//   database.ref('posts/' + USER_ID + '/' + postId).once('value')
+//   .then(function(snapshot) {
+//     snapshot.child("message").val();
+//   })
+// }
+
+// function editPostInDatabase(event) {
+// }
+
+// function editPost(event, postId) {
+//   event.preventDefault();
+//   // $('#post-textarea').text("banana")
+//   console.log('deu bom');
+// }
+
+// function editPostInDatabase(event) {
+//   console.log('edit deu bom');
+// }
 
 function deletePostModal(event) {
   event.preventDefault();

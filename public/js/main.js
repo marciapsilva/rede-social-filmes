@@ -29,13 +29,21 @@ function postUserMessage(event) {
   var title = $('#post-modal-long-title').val();
   var message = $('#post-textarea').val();
   var type = $('.type').val();
+  
+  database.ref(`users/` + USER_ID).once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(friendsUserFollows) {
+        var username = friendsUserFollows.val().username;
 
-  database.ref('posts/' + USER_ID).push({
-    title: title,
-    message: message,
-    type: type,
-    date: Date.now()
-  });
+        database.ref('posts/' + USER_ID).push({
+          title: title,
+          message: message,
+          type: type,
+          date: Date.now(),
+          author: username
+        });
+      })
+    })
 
   showMyPosts();
   $('#post-modal').modal('hide');
@@ -49,7 +57,6 @@ function editPostModal(event) {
   .then(function(snapshot) {
     var messageEdit = snapshot.child("message").val();
     var titleEdit = snapshot.child("title").val();
-    console.log(titleEdit);
     
     var editModal = `
     <div class="modal fade edit-post-modal" data-post-id="${postId}" tabindex="-1" role="dialog">
@@ -177,11 +184,9 @@ function showUsers() {
 function signout() {
   firebase.auth().signOut()
     .then(function() {
-      console.log('sign out deu bom');
       window.location = 'index.html';
     })
     .catch(function(error) {
-      console.log(error);
     })
 }
 
@@ -261,65 +266,81 @@ function showMyPosts() {
     .then(function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
         var postId = childSnapshot.key;
-        var postObject = childSnapshot.val();
-        var userPostTitle = postObject.title;
-        var userMessage = postObject.message;
-        if (userPostTitle === undefined){
-          userPostTitle = '';
-        };
-        var template = `
-        <div class="post-feed">
-          <div class="post-header">
-            <h3 data-post-id=${postId}>${userPostTitle}</h3>
-            <span class="edit-btn icon-pencil" data-post-id=${postId}></span>
-            <span class="delete-btn" data-post-id=${postId}>&times;</span>
-          </div>
-          <div>
-            <p class="p-message" data-post-id="${postId}">${userMessage}</p>
-          </div>
-        </div>
-      `
-        $('#feed').prepend(template);
+        var userPostTitle = childSnapshot.val().title;
+        var userMessage = childSnapshot.val().message;
+        var postAuthor = childSnapshot.val().author;
+        var postType = childSnapshot.val().type;
+        var postUser = snapshot.key;
+
+        postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor, postType);
       })
     })
 }
 
-var results;
+function postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor, postType) {
+  if (userPostTitle === undefined){
+    userPostTitle = '';
+  };
+
+  if (postType === 'public') {
+    postType = 'Público'          
+  } else if (postType === 'friends') {
+    postType = 'Amigos'
+  }
+
+  var templateOne = `
+  <div class="post-feed">
+    <div class="post-header">
+      <h5>${postAuthor}</h5>
+      <p>${postType}<p>
+      <h3 data-post-id=${postId}>${userPostTitle}</h3>
+  `   
+  var templateTwo = `
+      <span class="edit-btn icon-pencil" data-post-id=${postId}></span>
+      <span class="delete-btn" data-post-id=${postId}>&times;</span>
+  `
+  var templateThree = `
+    </div>
+    <div>
+      <p class="p-message" data-post-id="${postId}">${userMessage}</p>
+    </div>
+  </div>
+`
+  if (postUser === USER_ID) {
+    $('#feed').prepend(templateOne + templateTwo + templateThree);
+  } else {
+    $('#feed').prepend(templateOne + templateThree);
+  }
+
+}
+
 function showMyFriendsPosts() {
   $('#feed').show();
   clearFeed();
   clearSearch();
 
-  var friendId;
-  // PERCORRENDO OS AMIGOS QUE O USUÁRIO SEGUE NO BANCO DE DADOS
   database.ref('friends/' + USER_ID).once('value')
     .then(function(snapshot) {
       snapshot.forEach(function(friendsUserFollows) {
-        //PERCORRENDO OS POSTS DE TODOS OS USUÁRIOS PARA ENCONTRAR OS POSTS DOS AMIGOS NO BANCO DE DADOS
-        //PRIMEIRO LOOP PARA ENCONTRAR AS IDS DOS USUÁRIOS
         database.ref('posts/').once('value')
           .then(function(snapshot) {
             snapshot.forEach(function(userId) {
-              //SEGUNDO LOOP PARA ENCONTRAR OS TYPES E MESSAGES DE CADA USUÁRIO
               database.ref('posts/' + userId.key).once('value')
                 .then(function(snapshot) {
                   snapshot.forEach(function(childSnapshot) {
 
-                    friendId = friendsUserFollows.val().follow;    
-                    postType = childSnapshot.val().type;
-                    postDate = childSnapshot.val().date;
+                    var friendId = friendsUserFollows.val().follow;    
+                    var postType = childSnapshot.val().type;
 
                     if (friendId === userId.key) {
                       if (postType === 'public' || childSnapshot.val().type === 'friends') {
-                        results = pushPostsIntoArray(postDate);
-
-
+                        var postId = childSnapshot.key;
+                        var postAuthor = childSnapshot.val().author;
+                        var userPostTitle = childSnapshot.val().title;
                         var userMessage = childSnapshot.val().message;
-                        var postBox = document.createElement('div');
-                        var postMessage = '<p>' + userMessage + '</p>';
-                        $(postBox).addClass("post-feed");
-                        $(postBox).html(postMessage);
-                        $('#feed').prepend(postBox);
+                        var postUser = snapshot.key;
+
+                        postTemplate(postId, postUser, userPostTitle, userMessage, postAuthor, postType)
                       }
                     }
                   })
@@ -328,13 +349,6 @@ function showMyFriendsPosts() {
           })
       })
     })
-}
-
-var lista = [];
-function pushPostsIntoArray(postDate) {
-  lista.push(postDate);
-  lista.sort();
-  return lista;
 }
 
 function showAllPosts() {

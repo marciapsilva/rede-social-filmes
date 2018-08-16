@@ -311,7 +311,7 @@ function postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor,
     </div>
     <div class="post-footer">
       <p class="likes-counter" data-like-id="${postId}"><span class="like-number">${likeNumber}</span> pessoas curtiram</p>
-      <span class="like-btn like-post icon-heart-o" data-like-id="${postId}"></span>
+      <span class="like-btn like-post icon-heart" data-like-id="${postId}"></span>
     </div>
   </div>
 `

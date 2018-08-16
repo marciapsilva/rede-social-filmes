@@ -107,11 +107,11 @@ li {
 }
 
 .like-post {
-  color: #ffd106;
+  color: grey;
 }
 
 .unlike-post {
-  color: #6f4aac;
+  color: #ffd106;
 }
 
 #body-container {

@@ -11,15 +11,14 @@ $(document).ready(function(){
   $('.friends').on('click', showMyFriends);
   $('#feed').on('click', '.delete-btn', deletePostModal);
   $('#feed').on('click', '.edit-btn', editPostModal);
-  //SE O USUÁRIO CONFIRMAR A EDIÇÃO NO POST
-  $('body').on('click', '#edit-post', getNewTextValue);
+  // $('body').on('click', '#edit-post', getNewTextValue);
   $('body').on('click', '#cancel-edit', closeEditModal);
 })
 
 function closeEditModal(event) {
   event.preventDefault();
   alert('what');
-  $('edit-post-modal').remove();
+  $('.edit-post-modal').remove();
 }
 
 function postUserMessage(event) {
@@ -41,11 +40,9 @@ function postUserMessage(event) {
   // showInFeed(message, title);
 }
 
-//CRIA O MODAL COM O TEXTO DO POST EM QUE O USUÁRIO CLICOU "EDITAR"
 function editPostModal(event) {
   event.preventDefault();
   var postId = $(this).attr("data-post-id");
-  // console.log(postId);
 
   database.ref('posts/' + USER_ID + '/' + postId).once('value')
   .then(function(snapshot) {
@@ -56,7 +53,7 @@ function editPostModal(event) {
     // console.log(snapshot.key);
 
     var editModal = `
-    <div class="modal fade" id="edit-post-modal" tabindex="-1" role="dialog">
+    <div class="modal fade edit-post-modal" data-post-id="${postId}" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -82,38 +79,35 @@ function editPostModal(event) {
     `
     // console.log($('#edit-textarea').attr('data-post-id'));
     $(editModal).modal('show');
+    $('body').on('click', '#edit-post', function(event, postId) {
+      getNewTextValue(event, postId);
+    });
 
-    //DAQUI, VAI PRO EVENTO DO BOTÃO "SIM", QUE COLOQUEI LÁ EM CIMA, A PRÓXIMA AÇÃO SÓ IRÁ ACONTECER SE O USUÁRIO CLICAR 'SIM'
   }); 
 }
 
-//PEGA OS VALORES QUE O USUÁRIO EDITOU E INSERE NO HTML (OU AO MENOS ESSA ERA A IDEIA)
-function getNewTextValue(event) {
+function getNewTextValue(event, postId) {
   event.preventDefault();
 
-  //o que eu acho que tá rolando, na função anterior, o postId é definido pelo "this" pq eu quero o Id do botão editar
-  //que eu acabei de clicar. Porém essa variável ficou lá na outra função, que é a de mostrar o modal, então perdi esse
-  //link pois essa segunda função aqui não dá ligado a nada que eu cliquei. Então, quando eu peço pra buscar as coisas
-  //ele vai e pega o primeiro da lista e não o Id que eu realmente estou editando. 
-
-  //aqui pega o novo título do post e a nova mensagem do post, PORÉM está pegando APENAS do primeiro post, mesmo se eu mudar
-  //continua pegando do primeiro
   var newTitle = $('#edit-title').val();
   var newMessage = $('#edit-textarea').val();
   console.log(newTitle);
   console.log(newMessage);
 
-  //aqui ele pega o valor do primeiro post apenas, mesmo que eu clique em outras coisas
   var postId = $('#edit-textarea').attr('data-post-id');
   console.log(postId);
 
-  //aqui pega o título original do post e a mensagem original, ou seja, o que está no html,
-  //quando arrumar o postId, ele deve pegar isso aqui corretamente, espero, 
-  //porque também só está pegando o valor do primeiro post
-  var originalTitle = $(`p[data-post-id="${postId}"]`).text()
-  var originalMessage = $(`p[data-post-id="${postId}"]`).text();
+  var originalTitle = $(`h3[data-post-id="${postId}"]`);
+  var originalMessage = $(`p[data-post-id="${postId}"]`);
   console.log(originalTitle);
   console.log(originalMessage);
+  originalTitle.text(newTitle);
+  originalMessage.text(newMessage);
+  
+  $(`.edit-post-modal[data-post-id="${postId}"]`).modal('hide');
+  $(`.edit-post-modal[data-post-id="${postId}"]`).remove();
+  $('.modal-backdrop').remove();
+
 }
 
 

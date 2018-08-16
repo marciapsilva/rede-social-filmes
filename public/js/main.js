@@ -310,8 +310,8 @@ function postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor,
       <p class="p-message" data-post-id="${postId}">${userMessage}</p>
     </div>
     <div class="post-footer">
-      <p data-like-id="${postId}">${likeNumber} pessoas curtiram<p>
-      <span class="like-btn like-white" data-like-id="${postId}">Like</span>
+      <p class="likes-counter" data-like-id="${postId}"><span class="like-number">${likeNumber}</span> pessoas curtiram</p>
+      <span class="like-btn like-post icon-heart-o" data-like-id="${postId}"></span>
     </div>
   </div>
 `
@@ -367,7 +367,7 @@ function showAllPosts() {
   showMyPosts();
 }
 
-function likeFunction() {
+function likeFunction() {  
   var postId = $(this).attr("data-like-id");
   var icon = $(this);
 
@@ -380,26 +380,30 @@ function likeFunction() {
               if (postId === childSnapshot.key) {
                 var likes = childSnapshot.val().likes;
 
-                if (icon.hasClass('like-white')) {
-                  icon.removeClass('like-white');
-                  icon.addClass('like-purple');
+                if (icon.hasClass('like-post')) {
+                  icon.removeClass('like-post');
+                  icon.addClass('unlike-post');
 
                   database.ref(`posts/${userId.key}/${postId}`).update({
                     likes: likes + 1
                   })
   
                   likes = likes + 1;
-                  $(`p[data-like-id="${postId}"]`).text(likes + ' pessoas curtiram');
-                } else if (icon.hasClass('like-purple')) {
-                  icon.removeClass('like-purple');
-                  icon.addClass('like-white');
+                } else if (icon.hasClass('unlike-post')) {
+                  icon.removeClass('unlike-post');
+                  icon.addClass('like-post');
 
                   database.ref(`posts/${userId.key}/${postId}`).update({
                     likes: likes - 1
                   })
   
                   likes = likes - 1;
-                  $(`p[data-like-id="${postId}"]`).text(likes + ' pessoas curtiram');
+                }
+
+                if (likes === 1) {
+                  $(`p[data-like-id="${postId}"]`).html(`<span class="like-number">${likes}</span> pessoa curtiu`);
+                } else {
+                  $(`p[data-like-id="${postId}"]`).html(`<span class="like-number">${likes}</span> pessoas curtiram`);
                 }
               }
             })

@@ -69,15 +69,23 @@ li {
   white-space: pre-wrap;
 }
 
+.likes-counter {
+  font-size: 12px;
+}
+
+.like-number {
+  font-weight: bold;
+}
+
 .icon-pencil, .delete-btn, #like-btn {
   cursor: pointer;
 }
 
-.like-white {
-  color: #fff;
+.like-post {
+  color: #ffd106;
 }
 
-.like-purple {
+.unlike-post {
   color: #6f4aac;
 }
 

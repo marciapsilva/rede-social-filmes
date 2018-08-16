@@ -51,14 +51,17 @@ function resetPassword(event) {
   var emailAddress = $('#reset-email').val();
   var targetId = event.target.id;
 
-  auth.sendPasswordResetEmail(emailAddress).then(function() {
-    clearInput();
-    var sentEmail = document.createElement('p');
-    $(sentEmail).text('Um e-mail foi enviado para o endereço informado com instruções para redefinir sua senha.');
-    $('#send-email').after(sentEmail);
-  }).catch(function(error) {
+  auth.sendPasswordResetEmail(emailAddress)
+    .then(function() {
+      clearInput();
+      var sentEmail = document.createElement('p');
+      $(sentEmail).text('Um e-mail foi enviado para o endereço informado com instruções para redefinir sua senha.');
+      $('#send-email').after(sentEmail);
+    })
+    .catch(function(error) {
     showErrorMessage(error, targetId);
-  });
+    }
+  );
 }
 
 function userAuthentication(event) {
@@ -72,7 +75,8 @@ function userAuthentication(event) {
     })
     .catch(function(error) {
       showErrorMessage(error, targetId);
-  });
+    }
+  );
 }
 
 function createUser(event) {
@@ -90,8 +94,9 @@ function createUser(event) {
     })
     .catch(function(error) {
       showErrorMessage(error, targetId);
-    });
-  }
+    }
+  );
+}
 
 function createUserData(USER_UID, firstName, lastName, email) {
   database.ref('users/' + USER_UID).push({

@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link href="https://file.myfontastic.com/TL7SPECgWqKUURXn2NDXqK/icons.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Open+Sans:300,400,600,700,800" rel="stylesheet">
   <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
   <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase-auth.js"></script>
@@ -16,7 +16,6 @@
 
 </head>
 <body>
-  <!-- BOTÕES DO TOPO -->
   <nav class="main-header navbar fixed-top">
     <img class="profile-picture pb-1" src="assets/images/yellow-profile.png">
     <div class="dropdown">
@@ -63,47 +62,13 @@
   </nav>
 
   <div class="bg-navbar mb-5"></div>
-
-
     <div id="body-container">
-    <!-- ÁREA DO FEED -->
-    <section id="feed">
-      
-    </section>
+      <section id="feed"></section>
 
-    <!-- ÁREA DA BUSCA -->
-    <section id="search-area" class=" d-flex flex-wrap justify-content-around">
-      
-    </section>
+      <section id="search-area" class=" d-flex flex-wrap justify-content-around"></section>
 
-    <!-- MODAL PARA POSTAR MENSAGEM -->
-    <div class="modal fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="postModalTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <input class="modal-title form-control" id="post-modal-long-title"  placeholder="Seu Título"></input>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <textarea class="modal-body form-control" placeholder="Escreva seu post aqui :)" id="post-textarea"></textarea>
-          <div class="modal-footer">
-            <select class="type form-control form-control-sm">
-              <option value="public">Público</option>
-              <option value="friends">Amigos</option>
-            </select>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" id="post-btn">Postar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="edit-modal-here"></div>
-
-      <!-- MODAL PARA EDITAR MENSAGEM
-      <div class="modal fade" id="edit-post-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
+      <div class="modal fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="postModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <input class="modal-title form-control" id="post-modal-long-title"  placeholder="Seu Título"></input>
@@ -111,13 +76,37 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
+            <textarea class="modal-body form-control" placeholder="Escreva seu post aqui :)" id="post-textarea"></textarea>
+            <div class="modal-footer">
+              <select class="type form-control form-control-sm">
+                <option value="public">Público</option>
+                <option value="friends">Amigos</option>
+              </select>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" id="post-btn">Postar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="edit-modal-here"></div>
+
+      <div class="modal fade" id="delete-post-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Deletar post</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
             <div class="modal-body">
               <form class="reset-password-form">
                 <div>
-                  <textarea class="modal-body form-control" placeholder="Edite aqui" id="edit-textarea"></textarea>
+                  <label for="">Tem certeza que deseja deletar seu post?</label>
                 </div>
                 <div>
-                  <button class="btn btn-primary" id="edit-post">Sim</button>
+                  <button class="btn btn-primary" id="delete-post">Sim</button>
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
                 </div>
               </form>
@@ -126,36 +115,7 @@
         </div>
       </div>
     </div>
-    </div> -->
-
-    <!-- MODAL PARA DELETAR MENSAGEM -->
-    <div class="modal fade" id="delete-post-modal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Deletar post</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form class="reset-password-form">
-              <div>
-                <label for="">Tem certeza que deseja deletar seu post?</label>
-              </div>
-              <div>
-                <button class="btn btn-primary" id="delete-post">Sim</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
-  </div>
-</div>
-
 
   <div class="footer">
     <img class="logo ml-5 mt-1" src="assets/images/quill.png">

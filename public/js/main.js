@@ -46,7 +46,8 @@ function postUserMessage(event) {
           likes: 0
         });
       })
-    })
+    }
+  )
 
   showMyPosts();
   $('#post-modal').modal('hide');
@@ -87,7 +88,6 @@ function editPostModal(event) {
     </div>
     `
     $(editModal).modal('show');
-    
   }); 
 }
 
@@ -155,7 +155,6 @@ function showUsers() {
     .then(function(snapshot) {
       snapshot.forEach(function(childSnapshot) {        
         var childSnapshotKey = childSnapshot.key;
-        console.log(childSnapshotKey);
         childSnapshot.forEach(function(userId){
           var childData = userId.val()
           var usernameData = childData.username;     
@@ -172,7 +171,8 @@ function showUsers() {
           }
         });
       });
-    }); 
+    }
+  ); 
 }
 
 function signout() {
@@ -181,21 +181,9 @@ function signout() {
       window.location = 'index.html';
     })
     .catch(function(error) {
-    })
+    }
+  )
 }
-
-//  tentativa de buscar amigos em outra função
-
-// console.log(alreadyFollowed())
-// function alreadyFollowed() {
-//   database.ref('friends/' + USER_ID).once('value')
-//   .then(function(snapshot) {
-//     snapshot.forEach(function(friendsUserFollows) {
-//       var userFollows = friendsUserFollows.val().follow;
-//       return userFollows
-//     });
-//   });
-// }
 
 function showMyFriends() {
   clearSearch();
@@ -223,11 +211,14 @@ function showMyFriends() {
                       $('#feed').hide();
                     }
                   })
-                })
+                }
+              )
             })
-          })
+          }
+        )
       })
-    })
+    }
+  )
 }
 
 function clearSearch() {
@@ -246,10 +237,9 @@ function clearPostModal() {
 function followUser(event) {
   var clickTarget = event.target.id;
   
-    database.ref('friends/' + USER_ID).push({
-      follow: clickTarget,
+  database.ref('friends/' + USER_ID).push({
+    follow: clickTarget,
   });
-  
 };
 
 function showMyPosts() {
@@ -270,13 +260,14 @@ function showMyPosts() {
 
         postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor, postType, likeNumber);
       })
-    })
+    }
+  )
 }
 
 function postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor, postType, likeNumber) {
-  if (userPostTitle === undefined){
+  if (userPostTitle === undefined) {
     userPostTitle = '';
-  };
+  }
 
   if (postType === 'public') {
     postType = 'Público'          
@@ -305,13 +296,12 @@ function postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor,
       <span class="like-btn like-post icon-heart" data-like-id="${postId}"></span>
     </div>
   </div>
-`
+  `
   if (postUser === USER_ID) {
     $('#feed').prepend(templateOne + templateTwo + templateThree);
   } else {
     $('#feed').prepend(templateOne + templateThree);
   }
-
 }
 
 function showMyFriendsPosts() {
@@ -345,11 +335,14 @@ function showMyFriendsPosts() {
                       }
                     }
                   })
-                })
+                }
+              )
             })
-          })
+          }
+        )
       })
-    })
+    }
+  )
 }
 
 function showAllPosts() {
@@ -398,7 +391,9 @@ function likeFunction() {
                 }
               }
             })
-          })
+          }
+        )
       })
-    })
+    }
+  )
 }

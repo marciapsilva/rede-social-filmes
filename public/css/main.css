@@ -62,6 +62,33 @@ li {
   cursor: pointer;
 }
 
+#body-container {
+  min-height: 70vh;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  background-color: #6f4aac;
+}
+
+.logo {
+  height: 50px;
+}
+
+.copyright {
+  color: white;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.powered {
+  color: white;
+  margin-top: 30px;
+  font-size: 14px;
+}
+
 @media screen and (max-width: 576px) {
  .menu-title {
    display: none;
@@ -81,6 +108,10 @@ li {
 
  .post-feed {
   width: 100vw;
+}
+
+.footer {
+  display: none;
 }
 
 }

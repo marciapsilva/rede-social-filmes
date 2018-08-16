@@ -252,7 +252,7 @@ function clearPostModal() {
   $('#post-textarea').val('');
 }
 
-function followUser() {
+function followUser(event) {
   var clickTarget = event.target.id;
   
     database.ref('friends/' + USER_ID).push({
@@ -311,7 +311,7 @@ function postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor,
     </div>
     <div class="post-footer">
       <p data-like-id="${postId}">${likeNumber} pessoas curtiram<p>
-      <span class="like-btn" data-post-id="${postId}">Like</span>
+      <span class="like-btn like-white" data-like-id="${postId}">Like</span>
     </div>
   </div>
 `
@@ -368,7 +368,8 @@ function showAllPosts() {
 }
 
 function likeFunction() {
-  var postId = $(this).attr("data-post-id");
+  var postId = $(this).attr("data-like-id");
+  var icon = $(this);
 
   database.ref('posts/').once('value')
     .then(function(snapshot) {
@@ -379,16 +380,30 @@ function likeFunction() {
               if (postId === childSnapshot.key) {
                 var likes = childSnapshot.val().likes;
 
-                database.ref(`posts/${userId.key}/${postId}`).update({
-                  likes: likes + 1
-                })
+                if (icon.hasClass('like-white')) {
+                  icon.removeClass('like-white');
+                  icon.addClass('like-purple');
 
-                likes = likes + 1;
-                $(`p[data-like-id="${postId}"]`).text(likes + ' pessoas curtiram');
+                  database.ref(`posts/${userId.key}/${postId}`).update({
+                    likes: likes + 1
+                  })
+  
+                  likes = likes + 1;
+                  $(`p[data-like-id="${postId}"]`).text(likes + ' pessoas curtiram');
+                } else if (icon.hasClass('like-purple')) {
+                  icon.removeClass('like-purple');
+                  icon.addClass('like-white');
+
+                  database.ref(`posts/${userId.key}/${postId}`).update({
+                    likes: likes - 1
+                  })
+  
+                  likes = likes - 1;
+                  $(`p[data-like-id="${postId}"]`).text(likes + ' pessoas curtiram');
+                }
               }
             })
           })
       })
     })
 }
-

@@ -73,6 +73,14 @@ li {
   cursor: pointer;
 }
 
+.like-white {
+  color: #fff;
+}
+
+.like-purple {
+  color: #6f4aac;
+}
+
 #body-container {
   min-height: 70vh;
 }

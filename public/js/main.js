@@ -2,6 +2,7 @@ var database = firebase.database();
 var USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 
 $(document).ready(function(){
+  showAllPosts();
   $('#post-btn').on('click', postUserMessage);
   $('.menu-title').on('click', clearPostModal);
   $('.search').on('click', showUsers);
@@ -338,6 +339,7 @@ function pushPostsIntoArray(postDate) {
 
 function showAllPosts() {
   clearFeed();
-  alert('todos');
+  showMyFriendsPosts();
+  showMyPosts();
 }
 

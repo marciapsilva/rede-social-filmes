@@ -201,11 +201,15 @@ function deletePostInDatabase(postId) {
 // }
 
 function showUsers() {
+  // LOOP PARA ACHAR OS AMIGOS
   database.ref('friends/' + USER_ID).once('value')
   .then(function(snapshot) {
     snapshot.forEach(function(friendsUserFollows) {
       var userFollows = friendsUserFollows.val().follow;
-      console.log(userFollows)     
+      // mostra os amigos
+      // console.log(userFollows)     
+
+      // LOOP PARA ACHAR USUÁRIOS
       database.ref('users/').once('value')
         .then(function(snapshot) {
           clearSearch();
@@ -230,6 +234,9 @@ function showUsers() {
       });
     });
 }
+
+//  tentativa de buscar amigos em outra função
+
 // console.log(alreadyFollowed())
 // function alreadyFollowed() {
 //   database.ref('friends/' + USER_ID).once('value')

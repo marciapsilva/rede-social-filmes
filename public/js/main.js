@@ -310,8 +310,8 @@ function postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor,
       <p class="p-message" data-post-id="${postId}">${userMessage}</p>
     </div>
     <div class="post-footer">
-      <p data-like-id="${postId}">${likeNumber} pessoas curtiram<p>
-      <span class="like-btn" data-post-id="${postId}">Like</span>
+      <p class="likes-counter" data-like-id="${postId}"><strong>${likeNumber}</strong> pessoas curtiram</p>
+      <span class="like-btn icon-heart-o" data-post-id="${postId}"></span>
     </div>
   </div>
 `

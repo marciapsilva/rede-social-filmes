@@ -69,6 +69,10 @@ li {
   white-space: pre-wrap;
 }
 
+.likes-counter {
+  font-size: 12px;
+}
+
 .icon-pencil, .delete-btn, #like-btn {
   cursor: pointer;
 }

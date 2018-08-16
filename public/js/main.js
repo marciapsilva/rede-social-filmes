@@ -11,8 +11,8 @@ $(document).ready(function(){
   $('.friends').on('click', showMyFriends);
   $('#feed').on('click', '.delete-btn', deletePostModal);
   $('#feed').on('click', '.edit-btn', editPostModal);
-  // $('body').on('click', '#edit-post', getNewTextValue);
-  $('body').on('click', '#cancel-edit', closeEditModal);
+  $('body').on('click', '#edit-post', editPost);
+  $('body').on('click', '#cancel-edit', removeEditModal);
 })
 
 function closeEditModal(event) {
@@ -37,27 +37,24 @@ function postUserMessage(event) {
 
   showMyPosts();
   $('#post-modal').modal('hide');
-  // showInFeed(message, title);
 }
 
 function editPostModal(event) {
   event.preventDefault();
   var postId = $(this).attr("data-post-id");
 
-  database.ref('posts/' + USER_ID + '/' + postId).once('value')
+  database.ref(`posts/${USER_ID}/${postId}`).once('value')
   .then(function(snapshot) {
     var messageEdit = snapshot.child("message").val();
     var titleEdit = snapshot.child("title").val();
-
-    // console.log(postId);
-    // console.log(snapshot.key);
-
+    console.log(titleEdit);
+    
     var editModal = `
     <div class="modal fade edit-post-modal" data-post-id="${postId}" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <input class="modal-title form-control" id="edit-title" value=${titleEdit}></input>
+            <input class="modal-title form-control" id="edit-title" value="${titleEdit}"></input>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -77,83 +74,50 @@ function editPostModal(event) {
       </div>
     </div>
     `
-    // console.log($('#edit-textarea').attr('data-post-id'));
     $(editModal).modal('show');
-    $('body').on('click', '#edit-post', function(event, postId) {
-      getNewTextValue(event, postId);
-    });
-
+    
   }); 
 }
 
-function getNewTextValue(event, postId) {
+function editPost(event) {
   event.preventDefault();
 
   var newTitle = $('#edit-title').val();
   var newMessage = $('#edit-textarea').val();
-  console.log(newTitle);
-  console.log(newMessage);
-
   var postId = $('#edit-textarea').attr('data-post-id');
-  console.log(postId);
-
   var originalTitle = $(`h3[data-post-id="${postId}"]`);
   var originalMessage = $(`p[data-post-id="${postId}"]`);
-  console.log(originalTitle);
-  console.log(originalMessage);
+
   originalTitle.text(newTitle);
   originalMessage.text(newMessage);
-  
+
+  removeEditModal(event);
+  editDatabase(postId, newTitle, newMessage);
+}
+
+function editDatabase(postId, newTitle, newMessage) {
+  database.ref(`posts/${USER_ID}/${postId}`).update({
+    title: newTitle,
+    message: newMessage
+  })
+}
+
+function removeEditModal(event) {
+  event.preventDefault();
+
+  var postId = $('#edit-textarea').attr('data-post-id');
   $(`.edit-post-modal[data-post-id="${postId}"]`).modal('hide');
   $(`.edit-post-modal[data-post-id="${postId}"]`).remove();
   $('.modal-backdrop').remove();
-
 }
-
-
-//MEU COMMIT QUE VEIO DA LABORATÓRIA CASO A GENTE PRECISE RETORNAR A ELA
-// <<<<<<< HEAD
-// function editPostModal(event) {
-//   var postId = $(this).attr("data-post-id");
-//   console.log(postId);
-
-//   $('#edit-post-modal').modal('show');
-//   $('#edit-post').on('click', function(event) {
-//     editPost(event, postId);
-//   });
-// }
-
-// function editPost(event, postId) {
-//   event.preventDefault();
-
-//   database.ref('posts/' + USER_ID + '/' + postId).once('value')
-//   .then(function(snapshot) {
-//     snapshot.child("message").val();
-//   })
-// }
-
-// function editPostInDatabase(event) {
-// }
-
-// function editPost(event, postId) {
-//   event.preventDefault();
-//   // $('#post-textarea').text("banana")
-//   console.log('deu bom');
-// }
-
-// function editPostInDatabase(event) {
-//   console.log('edit deu bom');
-// }
 
 function deletePostModal(event) {
   event.preventDefault();
 
+  var postId = $(this).attr("data-post-id");
   var targetElement = event.target;
-  var nextSibling = targetElement.nextElementSibling;
-
   var elementParent = targetElement.parentElement;
   var elementGrandParent = elementParent.parentElement;
-  var postId = $(elementGrandParent).attr("data-post-id");
 
   $('#delete-post-modal').modal('show');
   $('#delete-post').click(function(event){
@@ -170,29 +134,8 @@ function deletePost(event, elementGrandParent) {
 }
 
 function deletePostInDatabase(postId) {
-  database.ref('posts/' + USER_ID + '/' + postId).remove();
+  database.ref(`posts/${USER_ID}/${postId}`).remove();
 }
-
-//talvez não precise dessa função, showMyPosts substitui ela e dá a opção
-//de deletar o post, coisa que essa aqui não dá
-// function showInFeed(message, title) {
-//   if (title === undefined){
-//     title = '';
-//   };
-  
-//   var template = `
-//   <div class="post-feed">
-//     <div class="post-header">
-//       <h3>${title}</h3>
-//       <span class="delete-btn">&times;</span>
-//     </div>
-//     <div>
-//       <p>${message}</p>
-//     </div>
-//   </div>
-// `
-//   $('#feed').prepend(template);
-// }
 
 function showUsers() {
   // LOOP PARA ACHAR OS AMIGOS

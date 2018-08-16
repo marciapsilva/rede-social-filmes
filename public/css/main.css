@@ -58,7 +58,7 @@ li {
   background-color: #6f4aac;
 }
 
-.delete-btn {
+.icon-pencil, .delete-btn {
   cursor: pointer;
 }
 
@@ -87,6 +87,10 @@ li {
   color: white;
   margin-top: 30px;
   font-size: 14px;
+}
+
+.modal-open {
+  overflow: scroll;
 }
 
 @media screen and (max-width: 576px) {

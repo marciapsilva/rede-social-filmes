@@ -11,6 +11,7 @@ $(document).ready(function(){
   $('.friend-posts').on('click', showMyFriendsPosts);
   $('.all-posts').on('click', showAllPosts);
   $('.friends').on('click', showMyFriends);
+  $('.profile-picture').on('click', showMyPosts);
   $('#feed').on('click', '.delete-btn', deletePostModal);
   $('#feed').on('click', '.edit-btn', editPostModal);
   $('#feed').on('click', '.like-btn', likeFunction);

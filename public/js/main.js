@@ -169,8 +169,9 @@ function showUsers() {
                 var userBox = document.createElement('div');
                 var usernameTitle = '<p>' + usernameData + '</p>';
                 var usernameBtn = '<button type="button"  onclick="followUser(event)" class="btn follow-btn btn-primary btn-sm" id="' + childSnapshotKey + '">Seguir</button>'
+                var userProfile = '<img class="profile-picture" src="assets/images/purple-profile.png">'
                 $(userBox).addClass("search-user");
-                $(userBox).html(usernameTitle + usernameBtn);
+                $(userBox).html(userProfile + usernameTitle + usernameBtn);
                 $('#search-area').prepend(userBox);
                 $('#feed').hide();
               }
@@ -222,8 +223,9 @@ function showMyFriends() {
                       var usernameData = childSnapshot.val().username;
                       var userBox = document.createElement('div');
                       var usernameTitle = '<p>' + usernameData + '</p>';
+                      var userProfile = '<img class="profile-picture" src="assets/images/purple-profile.png">'
                       $(userBox).addClass("search-user");
-                      $(userBox).html(usernameTitle);
+                      $(userBox).html(userProfile + usernameTitle);
                       $('#search-area').prepend(userBox);
                       $('#feed').hide();
                     }

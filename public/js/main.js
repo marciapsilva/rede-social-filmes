@@ -13,6 +13,7 @@ $(document).ready(function(){
   $('.friends').on('click', showMyFriends);
   $('#feed').on('click', '.delete-btn', deletePostModal);
   $('#feed').on('click', '.edit-btn', editPostModal);
+  $('#feed').on('click', '.like-btn', likeFunction);
   $('body').on('click', '#edit-post', editPost);
   $('body').on('click', '#cancel-edit', removeEditModal);
 })
@@ -40,7 +41,8 @@ function postUserMessage(event) {
           message: message,
           type: type,
           date: Date.now(),
-          author: username
+          author: username,
+          likes: 0
         });
       })
     })
@@ -270,16 +272,17 @@ function showMyPosts() {
         var postId = childSnapshot.key;
         var userPostTitle = childSnapshot.val().title;
         var userMessage = childSnapshot.val().message;
+        var likeNumber = childSnapshot.val().likes;
         var postAuthor = childSnapshot.val().author;
         var postType = childSnapshot.val().type;
         var postUser = snapshot.key;
 
-        postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor, postType);
+        postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor, postType, likeNumber);
       })
     })
 }
 
-function postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor, postType) {
+function postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor, postType, likeNumber) {
   if (userPostTitle === undefined){
     userPostTitle = '';
   };
@@ -303,8 +306,12 @@ function postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor,
   `
   var templateThree = `
     </div>
-    <div>
+    <div class="post-body">
       <p class="p-message" data-post-id="${postId}">${userMessage}</p>
+    </div>
+    <div class="post-footer">
+      <p data-like-id="${postId}">${likeNumber} pessoas curtiram<p>
+      <span class="like-btn" data-post-id="${postId}">Like</span>
     </div>
   </div>
 `
@@ -340,9 +347,10 @@ function showMyFriendsPosts() {
                         var postAuthor = childSnapshot.val().author;
                         var userPostTitle = childSnapshot.val().title;
                         var userMessage = childSnapshot.val().message;
+                        var likeNumber = childSnapshot.val().likes;
                         var postUser = snapshot.key;
 
-                        postTemplate(postId, postUser, userPostTitle, userMessage, postAuthor, postType)
+                        postTemplate(postId, postUser, userPostTitle, userMessage, postAuthor, postType, likeNumber)
                       }
                     }
                   })
@@ -357,5 +365,30 @@ function showAllPosts() {
   clearFeed();
   showMyFriendsPosts();
   showMyPosts();
+}
+
+function likeFunction() {
+  var postId = $(this).attr("data-post-id");
+
+  database.ref('posts/').once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(userId) {
+        database.ref('posts/' + userId.key).once('value')
+          .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+              if (postId === childSnapshot.key) {
+                var likes = childSnapshot.val().likes;
+
+                database.ref(`posts/${userId.key}/${postId}`).update({
+                  likes: likes + 1
+                })
+
+                likes = likes + 1;
+                $(`p[data-like-id="${postId}"]`).text(likes + ' pessoas curtiram');
+              }
+            })
+          })
+      })
+    })
 }
 

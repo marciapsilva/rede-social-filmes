@@ -195,27 +195,52 @@ function deletePostInDatabase(postId) {
 // }
 
 function showUsers() {
-  database.ref('users/').once('value')
-    .then(function(snapshot) {
-      clearSearch();
-      snapshot.forEach(function(childSnapshot) {        
-        var childSnapshotKey = childSnapshot.key;
-        childSnapshot.forEach(function(userId){
-          var childData = userId.val()
-          var usernameData = childData.username;
-          if (childSnapshotKey !== USER_ID) {
-            var userBox = document.createElement('div');
-            var usernameTitle = '<p>' + usernameData + '</p>';
-            var usernameBtn = '<button type="button"  onclick="followUser(event)" class="btn follow-btn btn-primary btn-sm" id="' + childSnapshotKey + '">Seguir</button>'
-            $(userBox).addClass("search-user");
-            $(userBox).html(usernameTitle + usernameBtn);
-            $('#search-area').prepend(userBox);
-            $('#feed').hide();
-          }
-        })
-      })
-    }); 
+  // LOOP PARA ACHAR OS AMIGOS
+  database.ref('friends/' + USER_ID).once('value')
+  .then(function(snapshot) {
+    snapshot.forEach(function(friendsUserFollows) {
+      var userFollows = friendsUserFollows.val().follow;
+      // mostra os amigos
+      // console.log(userFollows)     
+
+      // LOOP PARA ACHAR USUÁRIOS
+      database.ref('users/').once('value')
+        .then(function(snapshot) {
+          clearSearch();
+          snapshot.forEach(function(childSnapshot) {        
+            var childSnapshotKey = childSnapshot.key;
+            childSnapshot.forEach(function(userId){
+              var childData = userId.val()
+              var usernameData = childData.username;     
+              
+              if (childSnapshotKey !== USER_ID || childSnapshotKey !== userFollows) {
+                var userBox = document.createElement('div');
+                var usernameTitle = '<p>' + usernameData + '</p>';
+                var usernameBtn = '<button type="button"  onclick="followUser(event)" class="btn follow-btn btn-primary btn-sm" id="' + childSnapshotKey + '">Seguir</button>'
+                $(userBox).addClass("search-user");
+                $(userBox).html(usernameTitle + usernameBtn);
+                $('#search-area').prepend(userBox);
+                $('#feed').hide();
+              }
+            });
+          });
+        }); 
+      });
+    });
 }
+
+//  tentativa de buscar amigos em outra função
+
+// console.log(alreadyFollowed())
+// function alreadyFollowed() {
+//   database.ref('friends/' + USER_ID).once('value')
+//   .then(function(snapshot) {
+//     snapshot.forEach(function(friendsUserFollows) {
+//       var userFollows = friendsUserFollows.val().follow;
+//       return userFollows
+//     });
+//   });
+// }
 
 function showMyFriends() {
   clearSearch();

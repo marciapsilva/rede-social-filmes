@@ -98,8 +98,20 @@ li {
   font-size: 12px;
 }
 
+.like-number {
+  font-weight: bold;
+}
+
 .icon-pencil, .delete-btn, #like-btn {
   cursor: pointer;
+}
+
+.like-post {
+  color: #ffd106;
+}
+
+.unlike-post {
+  color: #6f4aac;
 }
 
 #body-container {

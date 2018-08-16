@@ -5,6 +5,7 @@ $(document).ready(function(){
   $('#post-btn').on('click', postUserMessage);
   $('.menu-title').on('click', clearPostModal);
   $('.search').on('click', showUsers);
+  $('.signout').on('click', signout);
   $('.your-posts').on('click', showMyPosts);
   $('.friend-posts').on('click', showMyFriendsPosts);
   $('.all-posts').on('click', showAllPosts);
@@ -172,6 +173,17 @@ function showUsers() {
     });
 }
 
+function signout() {
+  firebase.auth().signOut()
+    .then(function() {
+      console.log('sign out deu bom');
+      window.location = 'index.html';
+    })
+    .catch(function(error) {
+      console.log(error);
+    })
+}
+
 //  tentativa de buscar amigos em outra função
 
 // console.log(alreadyFollowed())
@@ -262,7 +274,7 @@ function showMyPosts() {
             <span class="delete-btn" data-post-id=${postId}>&times;</span>
           </div>
           <div>
-            <p data-post-id="${postId}">${userMessage}</p>
+            <p class="p-message" data-post-id="${postId}">${userMessage}</p>
           </div>
         </div>
       `

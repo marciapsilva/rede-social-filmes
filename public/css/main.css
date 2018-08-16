@@ -58,6 +58,11 @@ li {
   background-color: #6f4aac;
 }
 
+.p-message {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
 .icon-pencil, .delete-btn {
   cursor: pointer;
 }

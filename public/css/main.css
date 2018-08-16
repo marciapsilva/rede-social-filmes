@@ -52,6 +52,12 @@ li {
   width: 80vw;
   padding: 2vw;
   margin: 10px auto;
+  border-radius: 10px;
+  border-bottom: 1px solid #6f4aac;
+}
+
+.p-message {
+  margin-top: 20px;
 }
 
 #post-btn, #delete-post {

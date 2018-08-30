@@ -149,20 +149,32 @@ function deletePostInDatabase(postId) {
   database.ref(`posts/${USER_ID}/${postId}`).remove();
 }
 
+//LISTA DE AMIGOS DE UM USUÁRIO DENTRO DE UMA ARRAY
 async function friendList() {
-  database.ref(`friends/${USER_ID}`).once('value')
+  var list = [];
+  await database.ref(`friends/${USER_ID}`).once('value')
     .then(function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
         childSnapshot.forEach(function(userId) {
           var myfriend = userId.val();
-          return myfriend;
+          list.push(myfriend);
         })
       })
     })
-  return await myfriend;
+  return list;
+}
+//FIM DA FUNCAO
+
+
+//TESTE DE CHAMAR A FUNCAO FRIENDLIST DENTRO DE UMA VARIÁVEL, SUCESSO!
+newfunction();
+
+async function newfunction() {
+  var teste = await friendList();
+  console.log(teste);
 }
 
-console.log(friendList());
+//FIM DA FUNCAO
 
 function showUsers() {  
   clearSearch();

@@ -149,8 +149,25 @@ function deletePostInDatabase(postId) {
   database.ref(`posts/${USER_ID}/${postId}`).remove();
 }
 
+async function friendList() {
+  database.ref(`friends/${USER_ID}`).once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        childSnapshot.forEach(function(userId) {
+          var myfriend = userId.val();
+          return myfriend;
+        })
+      })
+    })
+  return await myfriend;
+}
+
+console.log(friendList());
+
 function showUsers() {  
   clearSearch();
+  friendList();
+
   database.ref('users/').once('value')
     .then(function(snapshot) {
       snapshot.forEach(function(childSnapshot) {        

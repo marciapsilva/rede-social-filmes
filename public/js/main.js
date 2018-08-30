@@ -161,7 +161,7 @@ function showUsers() {
           
           if (childSnapshotKey !== USER_ID) {
             var userBox = document.createElement('div');
-            var usernameTitle = '<p>' + usernameData + '</p>';
+            var usernameTitle = '<p class="ml-2">' + usernameData + '</p>';
             var usernameBtn = '<button type="button"  onclick="followUser(event)" class="btn follow-btn btn-primary btn-sm" id="' + childSnapshotKey + '">Seguir</button>'
             var userProfile = '<img class="profile-picture" src="assets/images/yellow-profile.png">'
             $(userBox).addClass("search-user");

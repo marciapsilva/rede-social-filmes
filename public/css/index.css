@@ -16,7 +16,7 @@
 .splash {
   width: 100%;
   height: 100%;
-  background-color: #6f4aac;
+  background-color: #7797a5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,7 +40,7 @@
 }
 
 body {
-  background-color: #6f4aac;
+  background-color: #7797a5;
   color: #fff;
 }
 
@@ -52,7 +52,7 @@ body {
 }
 
 main {
-  border: 2px solid #6f4aac;
+  border: 2px solid #7797a5;
   border-radius: 1.5rem;
   margin: auto;
   padding: 2%;
@@ -71,7 +71,7 @@ main {
 input {
   width: 100%;
   border-radius: 0.5rem;
-  border: 1px solid #6f4aac;
+  border: 1px solid #7797a5;
   font-family: 'Open Sans', sans-serif;
   padding: 2%;
 }
@@ -116,7 +116,7 @@ label {
 }
 
 button {
-  background-color: #331174;
+  background-color: #55382f;
   border: none;
   color: #fff;
   border-radius: 10px;
@@ -161,7 +161,7 @@ button {
 }
 
 .modal h5 {
-  color: #6f4aac;
+  color: #7797a5;
   font-weight: bold;
   font-size: 1.3rem;
 }

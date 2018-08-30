@@ -5,8 +5,8 @@
 }
 
 body {
-  font-family: 'Open Sans', sans-serif;
-  background-color: #498eaf;
+  font-family: 'Dosis', sans-serif;
+  background-color: #7797a5;
 }
 
 .profile-picture {
@@ -15,15 +15,15 @@ body {
 
 .main-header {
   font-size: 1.2rem;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: 'Dosis', sans-serif;
   font-weight: bold;
   height: 80px;
-  background-color: #631f16;
+  background-color: #55382f;
 }
 
 .bg-navbar {
   height: 80px;
-  background-color: #631f16;
+  background-color: #55382f;
 }
 
 a , a:link, a:active, a:hover  {
@@ -38,56 +38,61 @@ li {
 
 .dropdown-menu.columns-3 {
   min-width: 600px;
-  background-color: #631f16;
+  background-color: #55382f;
 }
 
 .dropdown-item {
   font-size: 1.2rem;
-  font-family: 'Open Sans Condensed', sans-serif;
+  font-family: 'Dosis', sans-serif;
   font-weight: bold;
   color: white;
 }
 
 .post-feed {
   background-color: white;
-  opacity: 0.8;
+  /* opacity: 0.8; */
   width: 80vw;
   padding: 2vw 2vw 5px 2vw;
   margin: 10px auto;
   border-radius: 10px;
-  border-bottom: 1px solid #631f16;
+  border-bottom: 1px solid #55382f;
 }
 
 .post-title {
-  color: #631f16;
+  color: #55382f;
 }
 
 .post-author {
-  color: #631f16;
+  color: #55382f;
 }
 
 .profile-picture-tiny {
   height: 30px;
 }
 
+.user-name {
+  color: white;
+}
+
 .follow-btn {
-  background-color: #498eaf;
+  background-color: #55382f;
   margin-left: 8px;
 }
 
 .post-type {
   padding-bottom: 5px;
-  border-bottom: 1px solid #631f16;
+  border-bottom: 1px solid #55382f;
   font-size: 12px;
-  color: #631f16;
+  color: #55382f;
 }
 
 .p-message {
   margin-top: 20px;
+  font-size: 18px;
 }
 
 #post-btn, #delete-post {
-  background-color: #631f16;
+  background-color: #55382f;
 }
 
 .p-message {
@@ -96,7 +101,7 @@ li {
 }
 
 .likes-counter {
-  border-top: 1px solid #631f16;
+  border-top: 1px solid #55382f;
   font-size: 12px;
 }
 
@@ -132,7 +137,7 @@ li {
   display: flex;
   justify-content: space-between;
   height: 60px;
-  background-color: #631f16;
+  background-color: #55382f;
 }
 
 .logo {

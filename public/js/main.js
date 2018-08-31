@@ -8,7 +8,7 @@ $(document).ready(function(){
   $('.search').on('click', showUsers);
   $('.signout').on('click', signout);
   $('.your-posts').on('click', showMyPosts);
-  $('.friend-posts').on('click', showMyFriendsPosts);
+  $('.friend-posts').on('click', newShowMyFriendsPosts);
   $('.all-posts').on('click', showAllPosts);
   $('.friends').on('click', showMyFriends);
   $('.profile-picture').on('click', showMyPosts);
@@ -48,6 +48,25 @@ function postUserMessage(event) {
       })
     }
   )
+
+  //TESTE DE OUTRA FORMA DE ORGANIZAR OS POSTS
+  database.ref(`users/` + USER_ID).once('value')
+  .then(function(snapshot) {
+    snapshot.forEach(function(friendsUserFollows) {
+      var username = friendsUserFollows.val().username;
+
+      database.ref('newPosts/').push({
+        userId: USER_ID,
+        title: title,
+        message: message,
+        type: type,
+        date: Date.now(),
+        author: username,
+        likes: 0
+      });
+    });
+  });
+  //FIM DO TESTE
 
   showMyPosts();
   $('#post-modal').modal('hide');
@@ -150,7 +169,7 @@ function deletePostInDatabase(postId) {
 }
 
 //LISTA DE AMIGOS DE UM USUÁRIO DENTRO DE UMA ARRAY
-async function friendList() {
+async function getFriendList() {
   var list = [];
   await database.ref(`friends/${USER_ID}`).once('value')
     .then(function(snapshot) {
@@ -165,20 +184,9 @@ async function friendList() {
 }
 //FIM DA FUNCAO
 
-
-//TESTE DE CHAMAR A FUNCAO FRIENDLIST DENTRO DE UMA VARIÁVEL, SUCESSO!
-newfunction();
-
-async function newfunction() {
-  var teste = await friendList();
-  console.log(teste);
-}
-
-//FIM DA FUNCAO
-
 function showUsers() {  
   clearSearch();
-  friendList();
+  // friendList();
 
   database.ref('users/').once('value')
     .then(function(snapshot) {
@@ -333,6 +341,85 @@ function postTemplate(postId,  postUser, userPostTitle, userMessage, postAuthor,
   }
 }
 
+//TENTATIVA DE PEGAR AS POSTS POR DATA NO BANCO DE DADOS - #FAIL 
+
+async function getAuthorsList() {
+  var authorsList = [];
+
+  await database.ref('posts/').once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(userId) {
+        authorsList.push(userId.key);
+      })
+    })
+  return authorsList;
+}
+
+async function friendsWhoPost() {
+  var authors = await getAuthorsList();
+  var myFriends = await getFriendList();
+  var friendsWhoPost = [];
+
+  authors.map(async author => {
+    myFriends.map(async friend => {
+      if (author === friend) {
+        await friendsWhoPost.push(author);
+      }
+    })
+  })
+  return friendsWhoPost;
+}
+
+friendsPostsDate();
+async function friendsPostsDate() {
+  var friendsWhoPosts = await friendsWhoPost();
+  var friendsPosts = [];
+  
+  friendsWhoPosts.map(async friend => {
+    await database.ref('posts/' + friend).once('value')
+      .then(function(snapshot) {
+        snapshot.forEach(function(userIdPosts) {
+          friendsPosts.push(userIdPosts.val());
+        })
+      })
+    // console.log(friendsPosts);
+    return friendsPosts;
+    //PROBLEMA AQUI
+  })
+  // console.log(friendsPosts);
+}
+//FIM DA DERROTA
+
+//TENTATIVA DE ORGANIZAR OS POSTS CRONOLOGICAMENTE COM A NOVA FORMA DE ORGANIZAR OS POSTS
+async function newShowMyFriendsPosts() {
+  $('#feed').show();
+  clearFeed();
+  clearSearch();
+
+  var myFriends = await getFriendList();
+
+  database.ref('newPosts/').once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(postsId) {
+        myFriends.map(friend => {
+          if (friend === postsId.val().userId) {
+            if (postsId.val().type === 'public' || postsId.val().type === 'friends') {
+              var postId = postsId.key;
+              var postAuthor = postsId.val().author;
+              var userPostTitle = postsId.val().title;
+              var userMessage = postsId.val().message;
+              var likeNumber = postsId.val().likes;
+              var postType = postsId.val().type;
+              var postUser = postsId.val().userId;
+
+              postTemplate(postId, postUser, userPostTitle, userMessage, postAuthor, postType, likeNumber)
+            }
+          }
+        })
+      })
+    })
+}
+
 function showMyFriendsPosts() {
   $('#feed').show();
   clearFeed();
@@ -374,10 +461,43 @@ function showMyFriendsPosts() {
   )
 }
 
-function showAllPosts() {
+//FUNCAO QUE TÁ FUNCIONANDO NA VERSAO1
+// function showAllPosts() {
+//   clearFeed();
+//   newShowMyFriendsPosts();
+//   showMyPosts();
+// }
+//FIM DA FUNCAO
+
+//TESTE DE INCLUSAO DE TODOS OS POSTS CRONOLOGICAMENTE
+async function showAllPosts() {
+  $('#feed').show();
   clearFeed();
-  showMyFriendsPosts();
-  showMyPosts();
+  clearSearch();
+  
+  var myFriends = await getFriendList();
+  myFriends.push(USER_ID);
+
+  database.ref('newPosts/').once('value')
+    .then(function(snapshot) {
+      snapshot.forEach(function(postsId) {
+        myFriends.map(friend => {
+          if (friend === postsId.val().userId) {
+            if (postsId.val().type === 'public' || postsId.val().type === 'friends') {
+              var postId = postsId.key;
+              var postAuthor = postsId.val().author;
+              var userPostTitle = postsId.val().title;
+              var userMessage = postsId.val().message;
+              var likeNumber = postsId.val().likes;
+              var postType = postsId.val().type;
+              var postUser = postsId.val().userId;
+
+              postTemplate(postId, postUser, userPostTitle, userMessage, postAuthor, postType, likeNumber)
+            }
+          }
+        })
+      })
+    })
 }
 
 function likeFunction() {  
